@@ -1,6 +1,6 @@
 {
   "name": "node-ultimate-migrate",
-  "version": "0.0.1",
+  "version": "0.0.9",
   "description": "Generate migrations from existing DataBases",
   "dependencies": {
     "optimist": "~0.3.0",

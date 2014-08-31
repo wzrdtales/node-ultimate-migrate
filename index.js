@@ -12,6 +12,7 @@ var config = require('db-migrate/lib/config.js');
 var log = require('db-migrate/lib/log');
 var pkginfo = require('pkginfo')(module, 'version');
 var dotenv = require('dotenv');
+var builder = require('./lib/builder.js')
 
 dotenv.load();
 
@@ -133,7 +134,6 @@ function executeCreate() {
 
 function executeDump()
 {
-  console.log(config.getCurrent().settings);
   if( argv['cross-compatible'] || config.getCurrent().settings.compatible )
   {
     console.log( 'Cross Compatible is currently not yet implemented! Switching back to Specific mode.');
@@ -148,15 +148,40 @@ function executeDump()
       process.exit(1);
     }
 
-    argv.title = argv._.shift();
-    index.createMigration(argv.title, argv['migrations-dir'], function(err, migration) {
-      assert.ifError(err);
-      log.info(util.format('Created migration at %s', migration.path));
-    });
+
+    if( err === undefined )
+    {
+      var migration = config.getCurrent().settings.database;
+      config.getCurrent().settings.database = migration + '_diff';
+      executeUp( function( err, complete, callback )
+      {
+        if(err)
+          process.exit(1);
+
+        callback( function(err)
+        {
+          if(err)
+            process.exit(1);
+
+          complete();
+
+          config.getCurrent().settings.database_diff = migration + '_diff';
+          config.getCurrent().settings.database = migration;
+
+
+
+          argv.title = argv._.shift();
+          /*index.createMigration(argv.title, argv['migrations-dir'], function(err, migration) {
+            assert.ifError(err);
+            log.info(util.format('Created migration at %s', migration.path));
+          });*/
+        });
+      });
+    } 
   });
 }
 
-function executeUp() {
+function executeUp( callback ) {
   if(!argv.count) {
     argv.count = Number.MAX_VALUE;
   }
@@ -166,12 +191,17 @@ function executeUp() {
     migrator.driver.createMigrationsTable(function(err) {
       assert.ifError(err);
       log.verbose('migration table created');
-      migrator.up(argv, onComplete.bind(this, migrator));
+      callback(null, onComplete.bind(this, migrator), function( callback )
+      {
+        migrator.up(argv, callback);
+      });
+      //migrator.up(argv, callback);
+      //migrator.up(argv, onComplete.bind(this, migrator));
     });
   });
 }
 
-function executeDown() {
+function executeDown( callback ) {
   if(!argv.count) {
     log.info('Defaulting to running 1 down migration.');
     argv.count = 1;
