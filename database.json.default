@@ -1,6 +1,8 @@
 {
    "dev": {
       "driver": "mysql",
+      "altDriver": "mariasql",
+      "host": "localhost",
       "user": "root",
       "password": "root",
       "database": "test"

@@ -12,7 +12,8 @@ var config = require('db-migrate/lib/config.js');
 var log = require('db-migrate/lib/log');
 var pkginfo = require('pkginfo')(module, 'version');
 var dotenv = require('dotenv');
-var builder = require('./lib/builder.js')
+var Builder = require('./lib/builder.js');
+var driver = require('./lib/driver/');
 
 dotenv.load();
 
@@ -89,6 +90,13 @@ if(global.dryRun) {
   log.info('dry run');
 }
 
+function connect( config, callback ) {
+  driver.connect(config, function(err, db) {
+    if (err) { callback(err); return; }
+    callback(null, new Builder(db, config['migrations-dir']));
+  });
+};
+
 function createMigrationDir(dir, callback) {
   fs.stat(dir, function(err, stat) {
     if (err) {
@@ -148,11 +156,13 @@ function executeDump()
       process.exit(1);
     }
 
-
     if( err === undefined )
     {
       var migration = config.getCurrent().settings.database;
+      config.getCurrent().settings.diffDump = true;
       config.getCurrent().settings.database = migration + '_diff';
+      config.getCurrent().settings.database_diff = migration + '_diff';
+      
       executeUp( function( err, complete, callback )
       {
         if(err)
@@ -165,19 +175,26 @@ function executeDump()
 
           complete();
 
-          config.getCurrent().settings.database_diff = migration + '_diff';
+          
           config.getCurrent().settings.database = migration;
 
-
-
-          argv.title = argv._.shift();
-          /*index.createMigration(argv.title, argv['migrations-dir'], function(err, migration) {
-            assert.ifError(err);
-            log.info(util.format('Created migration at %s', migration.path));
-          });*/
+          connect( config.getCurrent().settings, buildMigration );     
         });
       });
-    } 
+    }
+    else
+      connect( config.getCurrent().settings, buildMigration );
+  });
+}
+
+function buildMigration( err, builder )
+{
+  if( err === undefined )
+    process.exit(1);
+
+  builder.build( config.getCurrent().settings, function(err)
+  {
+    builder.close();
   });
 }
 
@@ -191,12 +208,13 @@ function executeUp( callback ) {
     migrator.driver.createMigrationsTable(function(err) {
       assert.ifError(err);
       log.verbose('migration table created');
-      callback(null, onComplete.bind(this, migrator), function( callback )
-      {
-        migrator.up(argv, callback);
-      });
-      //migrator.up(argv, callback);
-      //migrator.up(argv, onComplete.bind(this, migrator));
+      if( typeof( callback ) === 'function' )
+        callback( null, onComplete.bind( this, migrator ), function( callback )
+        {
+          migrator.up( argv, callback );
+        });
+      else
+        migrator.up( argv, onComplete.bind( this, migrator ) );
     });
   });
 }
@@ -211,7 +229,13 @@ function executeDown( callback ) {
     migrator.migrationsDir = path.resolve(argv['migrations-dir']);
     migrator.driver.createMigrationsTable(function(err) {
       assert.ifError(err);
-      migrator.down(argv, onComplete.bind(this, migrator));
+      if( typeof( callback ) === 'function' )
+        callback( null, onComplete.bind( this, migrator ), function( callback )
+        {
+          migrator.down( argv, callback );
+        });
+      else
+        migrator.down( argv, onComplete.bind( this, migrator ) );
     });
   });
 }
