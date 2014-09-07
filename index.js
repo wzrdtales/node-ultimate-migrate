@@ -65,7 +65,7 @@ var argv = optimist
     .alias('d', 'diffdb')
     .string('d')
 
-    .describe('cross-compatible', 'Dumper will run in compatible mode.')
+    .describe('cross-compatible', 'Dumper will run in compatible mode. By default everything generic keeps x-compatible')
     .alias('x', 'cross-compatible')
     .boolean('x')
 
@@ -144,11 +144,11 @@ function executeDump()
 {
   if( argv['cross-compatible'] || config.getCurrent().settings.compatible )
   {
-    console.log( 'Cross Compatible is currently not yet implemented! Switching back to Specific mode.');
-    console.log( 'Note that in compatible mode partitions, fulltext indexes and other DataBase Specific Features you made will be lost. This may be possible in any future release.');
+    console.log( 'Cross Compatible is currently not yet implemented! Switching back to Specific mode.' );
+    console.log( 'Note that in compatible mode partitions, fulltext indexes and other DataBase Specific Features you made will be lost. This may be possible in any future release.' );
   }
   else
-    console.log( 'Running in DataBase Specific mode.');
+    console.log( 'Running in DataBase Specific mode.' );
 
   createMigrationDir(argv['migrations-dir'], function(err) {
     if (err) {
@@ -195,6 +195,9 @@ function buildMigration( err, builder )
   builder.build( config.getCurrent().settings, function(err)
   {
     builder.close();
+
+    //config.getCurrent().settings.database = migration + '_diff';
+    //executeDown();
   });
 }
 
