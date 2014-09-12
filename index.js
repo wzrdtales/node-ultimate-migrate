@@ -14,6 +14,7 @@ var pkginfo = require('pkginfo')(module, 'version');
 var dotenv = require('dotenv');
 var Builder = require('./lib/builder.js');
 var driver = require('./lib/driver/');
+var template = require('./lib/template/');
 
 dotenv.load();
 
@@ -69,6 +70,10 @@ var argv = optimist
     .alias('x', 'cross-compatible')
     .boolean('x')
 
+    .describe('template', 'Specify which tempĺate to use.')
+    .alias('t', 'template')
+    .string('t')
+
     .describe('config', 'Location of the database.json file.')
     .string('config')
 
@@ -91,9 +96,15 @@ if(global.dryRun) {
 }
 
 function connect( config, callback ) {
-  driver.connect(config, function(err, db) {
-    if (err) { callback(err); return; }
-    callback(null, new Builder(db, config['migrations-dir']));
+  if( argv['template'] !== true )
+    config.template = argv['template'] || config.template;
+
+  template.connect( config, function( err, tmp )
+  {
+    driver.connect(config, function(err, db) {
+      if (err) { callback(err); return; }
+      callback(null, new Builder(db, tmp, config['migrations-dir']));
+    });
   });
 };
 

@@ -5,6 +5,8 @@
       "host": "localhost",
       "user": "root",
       "password": "root",
-      "database": "test"
+      "database": "test",
+      "multiStatements": true,
+      "template": "db-migrate"
    }
 }
