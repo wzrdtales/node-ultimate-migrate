@@ -7,6 +7,8 @@
       "password": "root",
       "database": "test",
       "multiStatements": true,
-      "template": "db-migrate"
+      "template": "db-migrate",
+      "filestring": "%action%_%filename%",
+      "primary": true
    }
 }
