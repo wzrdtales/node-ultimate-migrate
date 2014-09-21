@@ -32,11 +32,8 @@ Please read the docs for further Information.
 ### General/Dumper
 
 
-```
+```shell
 Usage: umigrate [up|down|create|dump] migrationName [options]
-
-Down migrations are run in reverse run order, so migrationName is ignored for down migrations.
-Use the --count option to control how many down migrations are run (default is 1).
 
 Options:
   --env, -e               The environment to run the migrations under (dev, test, prod).                      
