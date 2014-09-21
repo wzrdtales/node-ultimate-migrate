@@ -1,6 +1,6 @@
 # Ultimate Migrate
 
-A X language and X DataBase Migration, Migration generation and DataBase difftool.
+A X Language and X Database Migration, Migration generation and Database difftool.
 
 ## Installation
 
@@ -18,13 +18,13 @@ Don't forget to prepend sudo if you're not using your root Account on *nix like 
 
 #### BuiltIn Migrator
 
-Just now the Migrator part of this Application is a wrapper for [db-migrate](https://github.com/kunklejr/node-db-migrate/), you can use every command of `db-migrate` by replacing just the command `db-migrate` with `umigrate`. Please refer to their documentation for further Information.
+Just now the Migrator part of this Application is a wrapper for [db-migrate](https://github.com/kunklejr/node-db-migrate/), you can use every command of [db-migrate](https://github.com/kunklejr/node-db-migrate/) by replacing just the command `db-migrate` with `umigrate`. Please refer to their documentation for further Information.
 
-In the future I'm going to contribute to db-migrate, to make it more feature complete.
+In the future I'm going to contribute to [db-migrate](https://github.com/kunklejr/node-db-migrate/), to make it more feature complete.
 
 #### Custom Migrator
 
-There are two possibilities to use a custom migrator together with this tool. The first is, use an existing Interface (just now there don't exist any Interface). The second is, to write your own.
+There are two possibilities to use a custom migrator together with this tool. The first is, use an existing Interface (just now there doesn't exist another one apart of the [db-migrate](https://github.com/kunklejr/node-db-migrate/) Interface, but they will follow in near feature). The second is, to write your own.
 
 Please read the docs for further Information.
 
@@ -56,7 +56,7 @@ Options:
 You might set further options, you can apply in your database config or append them in your command line.
 
 
-#### Configure DataBase
+#### Configure Database
 
 You need to specify a database.json file, this must be by default in your path where you're executing `umigrate`. Alternatively you can specify your config file by --config.
 
@@ -90,11 +90,11 @@ The `template` specifies which output format the generator should use.
 The `filestring` enables you to provide ur wished output filename format. The keywords which are filled by `umigrate` are `%action%` which is filled for example by `dropTable` and `%filename%` which gets filled by the name of the table.
 A final filename looks like this:
 
-`date-dropTable_exampleTable`
+    date-dropTable_exampleTable
 
 The date format can't be specified. Also the date gets an iterator appended, because the date only consists out of YDMhms and the execution order would get confused by multiple files having the same time. The final date may looks like this:
 
-`201408311257391`
+    201408311257391
 
 
 ##### multiStatements
@@ -105,28 +105,40 @@ The `primary` parameter specifies if a primary key should be appended to the tab
 
 ## Goals
 
- * Completely independent from the DataBase used (X DataBase)
+ * Completely independent from the Database used (X Database)
 
 I want to be able to switch between Databases at any time, without having to care about compatibility of the existing Migrations.
 
- * Completely independent from the Migrator used (X language)
+ * Completely independent from the Migrator used (X Language)
 
 I want to be able to use a different Migrator (for example Laravel Migrations).
- * Support of all specific and standard features of DataBases
+ * Support of all specific and standard features of Databases
+ * No need for writing Migrations manually, unless non deterministic actions have been done (renaming)
 
 ## FAQ
 
  * Why did you decided to write another migrator?
 
-Well I didn't decided to do this exactly. I like the concept behind Migrations, but I hate it to do things twice. When I was working on any DataBase I already knew that I have to transfer my changes to the Migrations. Bad enough, but the true pain is to setup Migrations for an old project and transcribe the whole Schema.
-There are several tools out there, that pretend to help me with this. But finally they just generated more pain, then before. This is the final reason I decided to work on a full featured DataBase Migration Helper.
+Well I didn't decided to do this exactly, more then I wanted to create a Migration Helper instead of writing my own Migrator. I like the concept behind Migrations, but I hate it to do things twice. When I was working on any Database I already knew that I have to transfer my changes to the Migrations. Bad enough, but the true pain is to setup Migrations for an old project and transcribe the whole Schema.
+There are several tools out there, that pretend to help me with this. But finally they just generated more pain, then before. This is the final reason I decided to work on a full featured Database Migration Helper, which will include in some later Releases a full featured Migrator itself. Probably still db-migrate, but feature complete. Hopefully...
 
  * Nothing happens when -x is used, why?
 
 The option -x will become deprecated, as it has no functionality now and I'm not sure if I'm going to implement it. It is generally a product of an earlier design approach, which changed greatly while the development. I will review and revise this in near feature and then decide what to do.
-This earlier design approach was to enable functionality that is currently not implemented, by enabling and disabling raw queries (and so disabling DataBase features) through -x. Later on I decided to not provide this step by step implementation with fallback to raw Queries.
+This earlier design approach was to enable functionality that is currently not implemented, by enabling and disabling raw queries (and so disabling Database features) through -x. Later on I decided to not provide this step by step implementation with fallback to raw Queries.
 
+ * Do you have plans for future releases?
 
+Well..., yes. Just view the Roadmap. 
+
+ * Should I really don't care about Migration Compatiblity when switching Database Engines?
+
+It depends, at least if you are switching between a Database Engine that supports foreign keys and one not, you probably don't need to care. 
+Unless you haven't implemented relations outside the Database, then you've a problem. But if you switch between a Database Engine that supports functions and one that don't, you have a problem. But this is no longer a problem of the Migration, but your decision.
+
+ * Do you hate RAW Queries?
+
+No, I love them and prefer them in most cases over any Abstraction. There is nearly no case I could think of, where I would prefer to not use RAW Queries. This project is one of this special cases. You can't provide Cross Compatibility without providing generic functionality, that can be translated to the different Database Engines and its specifications.
 
 ## Donate
 
