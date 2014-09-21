@@ -24,7 +24,7 @@ In the future I'm going to contribute to db-migrate, to make it more feature com
 
 #### Custom Migrator
 
-There a two possibilities to use a custom migrator together with this tool. The first is, use an existing Interface (just now there don't exist any Interface). The second is, to write your own.
+There are two possibilities to use a custom migrator together with this tool. The first is, use an existing Interface (just now there don't exist any Interface). The second is, to write your own.
 
 Please read the docs for further Information.
 
