@@ -56,20 +56,23 @@ Options:
 ## Goals
 
  * Completely independent from the DataBase used (X DataBase)
+
 I want to be able to switch between Databases at any time, without having to care about compatibility of the existing Migrations.
 
  * Completely independent from the Migrator used (X language)
-I want to be able to use a different Migrator (for example Laravel Migrations).
 
+I want to be able to use a different Migrator (for example Laravel Migrations).
  * Support of all specific and standard features of DataBases
 
 ## FAQ
 
  * Why did you decided to write another migrator?
+
 Well I didn't decided to do this exactly. I like the concept behind Migrations, but I hate it to do things twice. When I was working on any DataBase I already knew that I have to transfer my changes to the Migrations. Bad enough, but the true pain is to setup Migrations for an old project and transcribe the whole Schema.
 There are severaly tools out there, that pretend to help me with this. But finally they just generated more pain, then before. This is the final reason I decided to work on a full featured DataBase Migration Helper.
 
  * Nothing happens when -x is used, why?
+
 The option -x will become deprecated, as it has no functionality now and I'm not sure if I'm going to implement it. It is generally a product of an earlier design approach, which changed greatly while the development. I will review and revise this in near feature and then decide what to do.
 This earlier design approach was to enable functionality that is currently not implemented, by enabling and disabling raw queries (and so disabling DataBase features) through -x. Later on I decided to not provide this step by step implementation with fallback to raw Queries.
 
