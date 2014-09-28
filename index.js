@@ -96,8 +96,8 @@ if(global.dryRun) {
 }
 
 function connect( config, callback ) {
-  if( argv['template'] !== true )
-    config.template = argv['template'] || config.template;
+  if( argv.template !== true )
+    config.template = argv.template || config.template;
 
   template.connect( config, function( err, tmp )
   {
@@ -106,7 +106,7 @@ function connect( config, callback ) {
       callback(null, new Builder(db, tmp, config['migrations-dir']));
     });
   });
-};
+}
 
 function createMigrationDir(dir, callback) {
   fs.stat(dir, function(err, stat) {
