@@ -22,6 +22,7 @@
   },
   "version": "0.4.9",
   "dependencies": {
+    "async": "~0.1.15",
     "auto-loader": "^0.2.0",
     "db-migrate": "^0.7.1",
     "deasync": "0.0.7",

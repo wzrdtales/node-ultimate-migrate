@@ -203,12 +203,36 @@ function buildMigration( err, builder )
   if( err === undefined )
     process.exit(1);
 
-  builder.build( config.getCurrent().settings, function(err)
+  builder.build( config.getCurrent().settings, function( cb )
   {
-    builder.close();
+    var originalDatabase = config.getCurrent().settings.database;
+    config.getCurrent().settings.database += '_diff';
 
-    //config.getCurrent().settings.database = migration + '_diff';
-    //executeDown();
+    executeDown( function( err, complete, callback )
+      {
+        if(err)
+          process.exit(1);
+
+        callback( function(err)
+        {
+          if(err)
+            process.exit(1);
+
+          complete();
+
+          
+          config.getCurrent().settings.database = originalDatabase;
+
+          cb();
+        });
+      });
+
+  }, function( err )
+  {
+    if( err )
+      log.info( 'An error occured: ' + err );
+
+    builder.close();
   });
 }
 
