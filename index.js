@@ -300,7 +300,8 @@ function run() {
 
 run();
 
-if (argv['force-exit']) {
+if (argv['force-exit']) 
+{
   log.verbose('Forcing exit');
   process.exit(0);
 }

@@ -1,7 +1,26 @@
 {
-  "name": "node-ultimate-migrate",
-  "version": "0.4.6",
-  "description": "Generate migrations from existing DataBases",
+  "name": "umigrate",
+  "author": "Tobias Gurtzick <magic@wizardtales.com>",
+  "keywords": [
+    "database",
+    "db",
+    "migrate",
+    "mariadb",
+    "migration",
+    "database",
+    "difference",
+    "diff",
+    "generator",
+    "language",
+    "independent",
+    "sqlite",
+    "mysql"
+  ],
+  "description": "A X Language and X Database Migration, Migration generation and Database difftool.",
+  "engines": {
+    "node": ">=0.8.0"
+  },
+  "version": "0.4.9",
   "dependencies": {
     "auto-loader": "^0.2.0",
     "db-migrate": "^0.7.1",
