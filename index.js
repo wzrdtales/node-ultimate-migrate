@@ -205,27 +205,32 @@ function buildMigration( err, builder )
 
   builder.build( config.getCurrent().settings, function( cb )
   {
-    var originalDatabase = config.getCurrent().settings.database;
-    config.getCurrent().settings.database += '_diff';
+    if ( config.getCurrent().settings.db_persist )
+      cb();
+    else
+    {
+      var originalDatabase = config.getCurrent().settings.database;
+      config.getCurrent().settings.database += '_diff';
 
-    executeDown( function( err, complete, callback )
-      {
-        if(err)
-          process.exit(1);
-
-        callback( function(err)
+      executeDown( function( err, complete, callback )
         {
           if(err)
             process.exit(1);
 
-          complete();
+          callback( function(err)
+          {
+            if(err)
+              process.exit(1);
 
-          
-          config.getCurrent().settings.database = originalDatabase;
+            complete();
 
-          cb();
+            
+            config.getCurrent().settings.database = originalDatabase;
+
+            cb();
+          });
         });
-      });
+    }
 
   }, function( err )
   {
