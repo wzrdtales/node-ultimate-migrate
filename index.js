@@ -103,7 +103,7 @@ function connect( config, callback ) {
   {
     driver.connect(config, function(err, db) {
       if (err) { callback(err); return; }
-      callback(null, new Builder(db, tmp, config['migrations-dir']));
+      callback(null, new Builder(db, tmp, argv['migrations-dir']));
     });
   });
 }

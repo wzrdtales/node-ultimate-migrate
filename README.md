@@ -119,9 +119,9 @@ I want to be able to use a different Migrator (for example Laravel Migrations).
 
 You want to contribute? Great!
 
-You can read the cs rules in the `.jscsrc` file or directly use it with jscs. I advise to use `Sublime Linter` + `JSCS` and `JSHINT`. Also I prefer the `Allman Style`, so you might use it.
+You can read the cs rules in the `.jscsrc` file or directly use it with jscs. I would advise advise you to use `Sublime Linter` + `JSCS` and `JSHINT`. Also I prefer the `Allman Style`, so you might use it, too.
 
-To make things easier you can also use the `sublime text` plugin code formatter, with the following config:
+To make things easier you can also use the `sublime text` plugin `code formatter`, with the following config:
 
 ```json
 {        

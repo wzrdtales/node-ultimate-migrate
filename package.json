@@ -28,6 +28,7 @@
     "debug": "~1.0.4",
     "dotenv": "~0.2.8",
     "hashmap": "^1.0.1",
+    "js-beautify": "^1.5.1",
     "mariasql": "^0.1.21",
     "mc": "^1.0.6",
     "mkdirp": "~0.3.4",
