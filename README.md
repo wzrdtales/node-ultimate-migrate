@@ -92,9 +92,9 @@ A final filename looks like this:
 
     date-dropTable_exampleTable
 
-The date format can't be specified. Also the date gets an iterator appended, because the date only consists out of YDMhms and the execution order would get confused by multiple files having the same time. The final date may looks like this:
+The date format can't be specified. Also the date gets an iterator added which increase the time by 1 second per iterator count, because the date only consists out of YDMhms and the execution order would get confused by multiple files having the same time. The final date may looks like this:
 
-    201408311257391
+    20140831125739
 
 
 ##### multiStatements
