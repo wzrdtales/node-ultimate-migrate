@@ -155,7 +155,7 @@ There are several tools out there, that pretend to help me with this. But finall
 
  * Nothing happens when -x is used, why?
 
-The option -x will become deprecated, as it has no functionality now and I'm not sure if I'm going to implement it. It is generally a product of an earlier design approach, which changed greatly while the development. I will review and revise this in near feature and then decide what to do.
+The option -x will probably become deprecated, as it has no functionality now and I'm not sure if I'm going to implement it. It is generally a product of an earlier design approach, which changed greatly while the development. I will review and revise this in near feature and then decide what to do.
 This earlier design approach was to enable functionality that is currently not implemented, by enabling and disabling raw queries (and so disabling Database features) through -x. Later on I decided to not provide this step by step implementation with fallback to raw Queries.
 
  * Do you have plans for future releases?
@@ -164,8 +164,10 @@ Well..., yes. Just view the Roadmap.
 
  * Should I really don't care about Migration Compatiblity when switching Database Engines?
 
-It depends, at least if you are switching between a Database Engine that supports foreign keys and one not, you probably don't need to care. 
-Unless you haven't implemented relations outside the Database, then you've a problem. But if you switch between a Database Engine that supports functions and one that don't, you have a problem. But this is no longer a problem of the Migration, but your decision.
+It depends, if you're switching between a Database Engine that supports foreign keys and one that do not and of course all relations are implemented outside the Database, you don't need to care.
+But if you switch between a Database Engine that supports functions and one that don't, you're probably screwed.
+It's all about making the right decisions.
+
 
  * Do you hate RAW Queries?
 
