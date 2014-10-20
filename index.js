@@ -18,10 +18,11 @@ var template = require('./lib/template/');
 
 dotenv.load();
 
-process.on('uncaughtException', function(err) {
-  log.error(err.stack);
-  process.exit(1);
-});
+process.on( 'uncaughtException', function( err ) 
+{
+  log.error( err.stac );
+  process.exit( 1 );
+} );
 
 var argv = optimist
     .default({
@@ -79,258 +80,303 @@ var argv = optimist
 
     .argv;
 
-if (argv.version) {
-  console.log(module.exports.version);
-  process.exit(0);
+if ( argv.version )
+{
+    console.log( module.exports.version );
+    process.exit( 0 );
 }
 
-if (argv.help || argv._.length === 0) {
-  optimist.showHelp();
-  process.exit(1);
+if ( argv.help || argv._.length === 0 )
+{
+    optimist.showHelp();
+    process.exit( 1 );
 }
 
 global.verbose = argv.verbose;
-global.dryRun = argv['dry-run'];
-if(global.dryRun) {
-  log.info('dry run');
+global.dryRun = argv[ 'dry-run' ];
+if ( global.dryRun )
+{
+    log.info( 'dry run' );
 }
 
-function connect( config, callback ) {
-  if( argv.template !== true )
-    config.template = argv.template || config.template;
+function connect( config, callback )
+{
+    if ( argv.template !== true )
+        config.template = argv.template || config.template;
 
-  template.connect( config, function( err, tmp )
-  {
-    driver.connect(config, function(err, db) {
-      if (err) { callback(err); return; }
-      callback(null, new Builder(db, tmp, argv['migrations-dir']));
-    });
-  });
+    template.connect( config, function ( err, tmp )
+    {
+        driver.connect( config, function ( err, db )
+        {
+            if ( err )
+            {
+                callback( err );
+                return;
+            }
+            callback( null, new Builder( db, tmp, argv[ 'migrations-dir' ] ) );
+        } );
+    } );
 }
 
-function createMigrationDir(dir, callback) {
-  fs.stat(dir, function(err, stat) {
-    if (err) {
-      mkdirp(dir, callback);
-    } else {
-      callback();
+function createMigrationDir( dir, callback )
+{
+    fs.stat( dir, function ( err, stat )
+    {
+        if ( err )
+        {
+            mkdirp( dir, callback );
+        }
+        else
+        {
+            callback();
+        }
+    } );
+}
+
+function loadConfig()
+{
+    if ( process.env.DATABASE_URL )
+    {
+        config.loadUrl( process.env.DATABASE_URL, argv.env );
     }
-  });
+    else
+    {
+        config.load( argv.config, argv.env );
+    }
+    if ( verbose )
+    {
+        var current = config.getCurrent();
+        log.info( 'Using', current.env, 'settings:', current.settings );
+    }
 }
 
-function loadConfig() {
-  if (process.env.DATABASE_URL) {
-    config.loadUrl(process.env.DATABASE_URL, argv.env);
-  } else {
-    config.load(argv.config, argv.env);
-  }
-  if(verbose) {
-    var current = config.getCurrent();
-    log.info('Using', current.env, 'settings:', current.settings);
-  }
-}
-
-function executeCreate() {
-  if(argv._.length === 0) {
-    log.error('\'migrationName\' is required.');
-    optimist.showHelp();
-    process.exit(1);
-  }
-
-  createMigrationDir(argv['migrations-dir'], function(err) {
-    if (err) {
-      log.error('Failed to create migration directory at ', argv['migrations-dir'], err);
-      process.exit(1);
+function executeCreate()
+{
+    if ( argv._.length === 0 )
+    {
+        log.error( '\'migrationName\' is required.' );
+        optimist.showHelp();
+        process.exit( 1 );
     }
 
-    argv.title = argv._.shift();
-    index.createMigration(argv.title, argv['migrations-dir'], function(err, migration) {
-      assert.ifError(err);
-      log.info(util.format('Created migration at %s', migration.path));
-    });
-  });
+    createMigrationDir( argv[ 'migrations-dir' ], function ( err )
+    {
+        if ( err )
+        {
+            log.error( 'Failed to create migration directory at ', argv[ 'migrations-dir' ], err );
+            process.exit( 1 );
+        }
+
+        argv.title = argv._.shift();
+        index.createMigration( argv.title, argv[ 'migrations-dir' ], function ( err, migration )
+        {
+            assert.ifError( err );
+            log.info( util.format( 'Created migration at %s', migration.path ) );
+        } );
+    } );
 }
 
 function executeDump()
 {
-  if( argv['cross-compatible'] || config.getCurrent().settings.compatible )
-  {
-    console.log( 'Cross Compatible is currently not yet implemented! Switching back to Specific mode.' );
-    console.log( 'Note that in compatible mode partitions, fulltext indexes and other DataBase Specific Features you made will be lost. This may be possible in any future release.' );
-  }
-  else
-    console.log( 'Running in DataBase Specific mode.' );
-
-  createMigrationDir(argv['migrations-dir'], function(err) {
-    if (err) {
-      log.error('Failed to create migration directory at ', argv['migrations-dir'], err);
-      process.exit(1);
-    }
-
-    if( err === undefined )
+    if ( argv[ 'cross-compatible' ] || config.getCurrent().settings.compatible )
     {
-      var migration = config.getCurrent().settings.database;
-      config.getCurrent().settings.diffDump = true;
-      config.getCurrent().settings.database = migration + '_diff';
-      config.getCurrent().settings.database_diff = migration + '_diff';
-      
-      executeUp( function( err, complete, callback )
-      {
-        if(err)
-          process.exit(1);
-
-        callback( function(err)
-        {
-          if(err)
-            process.exit(1);
-
-          complete();
-
-          
-          config.getCurrent().settings.database = migration;
-
-          connect( config.getCurrent().settings, buildMigration );     
-        });
-      });
+        console.log( 'Cross Compatible is currently not yet implemented! Switching back to Specific mode.' );
+        console.log( 'Note that in compatible mode partitions, fulltext indexes and other DataBase Specific Features you made will be lost. This may be possible in any future release.' );
     }
     else
-      connect( config.getCurrent().settings, buildMigration );
-  });
+        console.log( 'Running in DataBase Specific mode.' );
+
+    createMigrationDir( argv[ 'migrations-dir' ], function ( err )
+    {
+        if ( err )
+        {
+            log.error( 'Failed to create migration directory at ', argv[ 'migrations-dir' ], err );
+            process.exit( 1 );
+        }
+
+        if ( err === undefined )
+        {
+            var migration = config.getCurrent().settings.database;
+            config.getCurrent().settings.diffDump = true;
+            config.getCurrent().settings.database = migration + '_diff';
+            config.getCurrent().settings.database_diff = migration + '_diff';
+
+            executeUp( function ( err, complete, callback )
+            {
+                if ( err )
+                    process.exit( 1 );
+
+                callback( function ( err )
+                {
+                    if ( err )
+                        process.exit( 1 );
+
+                    complete();
+
+
+                    config.getCurrent().settings.database = migration;
+
+                    connect( config.getCurrent().settings, buildMigration );
+                } );
+            } );
+        }
+        else
+            connect( config.getCurrent().settings, buildMigration );
+    } );
 }
 
 function buildMigration( err, builder )
 {
-  if( err === undefined )
-    process.exit(1);
+    if ( err === undefined )
+        process.exit( 1 );
 
-  builder.build( config.getCurrent().settings, function( cb )
-  {
-    if ( config.getCurrent().settings.db_persist )
-      cb();
-    else
+    builder.build( config.getCurrent().settings, function ( cb )
     {
-      var originalDatabase = config.getCurrent().settings.database;
-      config.getCurrent().settings.database += '_diff';
-
-      executeDown( function( err, complete, callback )
-        {
-          if(err)
-            process.exit(1);
-
-          callback( function(err)
-          {
-            if(err)
-              process.exit(1);
-
-            complete();
-
-            
-            config.getCurrent().settings.database = originalDatabase;
-
+        if ( config.getCurrent().settings.db_persist )
             cb();
-          });
-        });
+        else
+        {
+            var originalDatabase = config.getCurrent().settings.database;
+            config.getCurrent().settings.database += '_diff';
+
+            executeDown( function ( err, complete, callback )
+            {
+                if ( err )
+                    process.exit( 1 );
+
+                callback( function ( err )
+                {
+                    if ( err )
+                        process.exit( 1 );
+
+                    complete();
+
+
+                    config.getCurrent().settings.database = originalDatabase;
+
+                    cb();
+                } );
+            } );
+        }
+
+    }, function ( err )
+    {
+        if ( err )
+            log.info( 'An error occured: ' + err );
+
+        builder.close();
+    } );
+}
+
+function executeUp( callback )
+{
+    if ( !argv.count )
+    {
+        argv.count = Number.MAX_VALUE;
     }
-
-  }, function( err )
-  {
-    if( err )
-      log.info( 'An error occured: ' + err );
-
-    builder.close();
-  });
-}
-
-function executeUp( callback ) {
-  if(!argv.count) {
-    argv.count = Number.MAX_VALUE;
-  }
-  index.connect(config.getCurrent().settings, function(err, migrator) {
-    assert.ifError(err);
-    migrator.migrationsDir = path.resolve(argv['migrations-dir']);
-    migrator.driver.createMigrationsTable(function(err) {
-      assert.ifError(err);
-      log.verbose('migration table created');
-      if( typeof( callback ) === 'function' )
-        callback( null, onComplete.bind( this, migrator ), function( callback )
+    index.connect( config.getCurrent().settings, function ( err, migrator )
+    {
+        assert.ifError( err );
+        migrator.migrationsDir = path.resolve( argv[ 'migrations-dir' ] );
+        migrator.driver.createMigrationsTable( function ( err )
         {
-          migrator.up( argv, callback );
-        });
-      else
-        migrator.up( argv, onComplete.bind( this, migrator ) );
-    });
-  });
+            assert.ifError( err );
+            log.verbose( 'migration table created' );
+            if ( typeof ( callback ) === 'function' )
+                callback( null, onComplete.bind( this, migrator ), function ( callback )
+                {
+                    migrator.up( argv, callback );
+                } );
+            else
+                migrator.up( argv, onComplete.bind( this, migrator ) );
+        } );
+    } );
 }
 
-function executeDown( callback ) {
-  if(!argv.count) {
-    log.info('Defaulting to running 1 down migration.');
-    argv.count = 1;
-  }
-  index.connect(config.getCurrent().settings, function(err, migrator) {
-    assert.ifError(err);
-    migrator.migrationsDir = path.resolve(argv['migrations-dir']);
-    migrator.driver.createMigrationsTable(function(err) {
-      assert.ifError(err);
-      if( typeof( callback ) === 'function' )
-        callback( null, onComplete.bind( this, migrator ), function( callback )
+function executeDown( callback )
+{
+    if ( !argv.count )
+    {
+        log.info( 'Defaulting to running 1 down migration.' );
+        argv.count = 1;
+    }
+    index.connect( config.getCurrent().settings, function ( err, migrator )
+    {
+        assert.ifError( err );
+        migrator.migrationsDir = path.resolve( argv[ 'migrations-dir' ] );
+        migrator.driver.createMigrationsTable( function ( err )
         {
-          migrator.down( argv, callback );
-        });
-      else
-        migrator.down( argv, onComplete.bind( this, migrator ) );
-    });
-  });
+            assert.ifError( err );
+            if ( typeof ( callback ) === 'function' )
+                callback( null, onComplete.bind( this, migrator ), function ( callback )
+                {
+                    migrator.down( argv, callback );
+                } );
+            else
+                migrator.down( argv, onComplete.bind( this, migrator ) );
+        } );
+    } );
 }
 
-function onComplete(migrator, originalErr) {
-  migrator.driver.close(function(err) {
-    assert.ifError(originalErr);
-    assert.ifError(err);
-    log.info('Done');
-  });
+function onComplete( migrator, originalErr )
+{
+    migrator.driver.close( function ( err )
+    {
+        assert.ifError( originalErr );
+        assert.ifError( err );
+        log.info( 'Done' );
+    } );
 }
 
-function run() {
-  var action = argv._.shift();
-  switch(action) {
+function run()
+{
+    var action = argv._.shift();
+    switch ( action )
+    {
     case 'dump':
-      loadConfig();
-      executeDump();
-      break;
+        loadConfig();
+        executeDump();
+        break;
     case 'create':
-      executeCreate();
-      break;
+        executeCreate();
+        break;
     case 'up':
     case 'down':
-      loadConfig();
-      if(argv._.length > 0) {
-        if (action == 'down') {
-          log.info('Ignoring migration name for down migrations.  Use --count to control how many down migrations are run.');
-          argv.destination = null;
-        } else {
-          argv.destination = argv._.shift().toString();
+        loadConfig();
+        if ( argv._.length > 0 )
+        {
+            if ( action == 'down' )
+            {
+                log.info( 'Ignoring migration name for down migrations.  Use --count to control how many down migrations are run.' );
+                argv.destination = null;
+            }
+            else
+            {
+                argv.destination = argv._.shift().toString();
+            }
         }
-      }
-      if(action == 'up') {
-        executeUp();
-      } else {
-        executeDown();
-      }
-      break;
+        if ( action == 'up' )
+        {
+            executeUp();
+        }
+        else
+        {
+            executeDown();
+        }
+        break;
 
     default:
-      log.error('Invalid Action: Must be [up|down|create].');
-      optimist.showHelp();
-      process.exit(1);
-      break;
-  }
+        log.error( 'Invalid Action: Must be [up|down|create].' );
+        optimist.showHelp();
+        process.exit( 1 );
+        break;
+    }
 }
 
 run();
 
-if (argv['force-exit']) 
+if ( argv[ 'force-exit' ] )
 {
-  log.verbose('Forcing exit');
-  process.exit(0);
+    log.verbose( 'Forcing exit' );
+    process.exit( 0 );
 }
