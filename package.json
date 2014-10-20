@@ -20,7 +20,7 @@
   "engines": {
     "node": ">=0.8.0"
   },
-  "version": "0.4.9",
+  "version": "0.4.26",
   "dependencies": {
     "async": "~0.1.15",
     "auto-loader": "^0.2.0",
