@@ -68,6 +68,57 @@ lab.experiment( 'builder/', function ()
         } );
     } );
 
+
+    lab.experiment( 'matchArr', function ()
+    {
+
+        lab.test( 'returns true if the element itself is null or undefined', function ( done )
+        {
+
+            Code.expect( build.matchArr( undefined, [] ) ).equal( undefined );
+            done();
+        } );
+
+        lab.test( 'returns true when the processed array was substracted as expected, single layer', function ( done )
+        {
+
+            var finArr = [ 'test1' ],
+                matchArr = [ 'test1', 'test3' ],
+                testArr = [ 'test1', 'test2', 'test4', 'test5' ];
+
+
+            var actual = build.matchArr( testArr, matchArr );
+
+            Code.expect( actual ).to.be.an.array();
+            Code.expect( actual ).to.deep.equal( finArr );
+            done();
+        } );
+
+        lab.test( 'returns true when the processed array was substracted as expected, double layer (only first element counts)', function ( done )
+        {
+
+            var finArr = [
+                [ 'test4', 'undefined' ]
+            ],
+                matchArr = [
+                    [ 'test4', 'test1' ],
+                    [ 'test6', 'test5' ]
+                ],
+                testArr = [
+                    [ 'test1', 'test2', 'test3' ],
+                    [ 'test4', 'undefined' ],
+                    [ 'test5', 'test6' ]
+                ];
+
+
+            var actual = build.matchArr( testArr, matchArr );
+
+            Code.expect( actual ).to.be.an.array();
+            Code.expect( actual ).to.deep.equal( finArr );
+            done();
+        } );
+    } );
+
     lab.experiment( 'buildArr', function ()
     {
 
