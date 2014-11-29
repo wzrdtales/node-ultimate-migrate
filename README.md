@@ -8,6 +8,8 @@ A X Language and X Database Migration, Migration generation and Database difftoo
 
 Don't forget to prepend sudo if you're not using your root Account on *nix like Systems.
 
+Having problems while installation? Reading this may solve all your problems!
+
 ## Supported Databases
 
  * MariaDB(MySQL) (https://github.com/mscdex/node-mariasql/)

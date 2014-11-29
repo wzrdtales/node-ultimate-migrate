@@ -78,6 +78,10 @@ var argv = optimist
     .describe('config', 'Location of the database.json file.')
     .string('config')
 
+    .describe('db_persist', 'Defines wether the diff database should be persistent or be rollbacked after diff.')
+    .alias('p', 'db_persist')
+    .boolean('db_persist')
+
     .argv;
 
 if ( argv.version )
