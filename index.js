@@ -1,88 +1,91 @@
 #!/usr/bin/env node
 
-//This code is mostly the same as db-migrate/bin/db-migrate
-var index = require('db-migrate');
-var assert = require('assert');
-var fs = require('fs');
-var path = require('path');
-var util = require('util');
-var mkdirp = require('mkdirp');
-var optimist = require('optimist');
-var config = require('db-migrate/lib/config.js');
-var log = require('db-migrate/lib/log');
-var pkginfo = require('pkginfo')(module, 'version');
-var dotenv = require('dotenv');
-var Builder = require('./lib/builder.js');
-var driver = require('./lib/driver/');
-var template = require('./lib/template/');
+// This code is mostly the same as db-migrate/bin/db-migrate
+var index = require( 'db-migrate' );
+var assert = require( 'assert' );
+var fs = require( 'fs' );
+var path = require( 'path' );
+var util = require( 'util' );
+var mkdirp = require( 'mkdirp' );
+var optimist = require( 'optimist' );
+var config = require( 'db-migrate/lib/config.js' );
+var log = require( 'db-migrate/lib/log' );
+var pkginfo = require( 'pkginfo' )( module, 'version' );
+var dotenv = require( 'dotenv' );
+var Builder = require( './lib/builder.js' );
+var driver = require( './lib/driver/' );
+var template = require( './lib/template/' );
 
 dotenv.load();
 
-process.on( 'uncaughtException', function( err ) 
+process.on( 'uncaughtException', function ( err )
 {
-  log.error( err.stac );
-  process.exit( 1 );
+    log.error( err.stac );
+    process.exit( 1 );
 } );
 
 var argv = optimist
-    .default({
-      verbose: false,
-      'cross-compatible': false,
-      'force-exit': false,
-      config: process.cwd() + '/database.json',
-      'migrations-dir': process.cwd() + '/migrations' })
-    .usage('Usage: db-umigrate [up|down|create|dump] migrationName [options]')
+    .
+default (
+{
+    verbose: false,
+    'cross-compatible': false,
+    'force-exit': false,
+    config: process.cwd() + '/database.json',
+    'migrations-dir': process.cwd() + '/migrations'
+} )
+    .usage( 'Usage: db-umigrate [up|down|create|dump] migrationName [options]' )
 
-    .describe('env', 'The environment to run the migrations under (dev, test, prod).')
-    .alias('e', 'env')
-    .string('e')
+.describe( 'env', 'The environment to run the migrations under (dev, test, prod).' )
+    .alias( 'e', 'env' )
+    .string( 'e' )
 
-    .describe('migrations-dir', 'The directory containing your migration files.')
-    .alias('m', 'migrations-dir')
-    .string('m')
+.describe( 'migrations-dir', 'The directory containing your migration files.' )
+    .alias( 'm', 'migrations-dir' )
+    .string( 'm' )
 
-    .describe('count', 'Max number of migrations to run.')
-    .alias('c', 'count')
-    .string('c')
+.describe( 'count', 'Max number of migrations to run.' )
+    .alias( 'c', 'count' )
+    .string( 'c' )
 
-    .describe('dry-run', 'Prints the SQL but doesn\'t run it.')
-    .boolean('dry-run')
+.describe( 'dry-run', 'Prints the SQL but doesn\'t run it.' )
+    .boolean( 'dry-run' )
 
-    .describe('force-exit', 'Forcibly exit the migration process on completion.')
-    .boolean('force-exit')
+.describe( 'force-exit', 'Forcibly exit the migration process on completion.' )
+    .boolean( 'force-exit' )
 
-    .describe('verbose', 'Verbose mode.')
-    .alias('v', 'verbose')
-    .boolean('v')
+.describe( 'verbose', 'Verbose mode.' )
+    .alias( 'v', 'verbose' )
+    .boolean( 'v' )
 
-    .alias('h', 'help')
-    .alias('h', '?')
-    .boolean('h')
+.alias( 'h', 'help' )
+    .alias( 'h', '?' )
+    .boolean( 'h' )
 
-    .describe('version', 'Print version info.')
-    .alias('i', 'version')
-    .boolean('version')
+.describe( 'version', 'Print version info.' )
+    .alias( 'i', 'version' )
+    .boolean( 'version' )
 
-    .describe('diffdb', 'Specify manually a DataBase to diff.')
-    .alias('d', 'diffdb')
-    .string('d')
+.describe( 'diffdb', 'Specify manually a DataBase to diff.' )
+    .alias( 'd', 'diffdb' )
+    .string( 'd' )
 
-    .describe('cross-compatible', 'Dumper will run in compatible mode. By default everything generic keeps x-compatible')
-    .alias('x', 'cross-compatible')
-    .boolean('x')
+.describe( 'cross-compatible', 'Dumper will run in compatible mode. By default everything generic keeps x-compatible' )
+    .alias( 'x', 'cross-compatible' )
+    .boolean( 'x' )
 
-    .describe('template', 'Specify which tempĺate to use.')
-    .alias('t', 'template')
-    .string('t')
+.describe( 'template', 'Specify which tempĺate to use.' )
+    .alias( 't', 'template' )
+    .string( 't' )
 
-    .describe('config', 'Location of the database.json file.')
-    .string('config')
+.describe( 'config', 'Location of the database.json file.' )
+    .string( 'config' )
 
-    .describe('db_persist', 'Defines wether the diff database should be persistent or be rollbacked after diff.')
-    .alias('p', 'db_persist')
-    .boolean('db_persist')
+.describe( 'db_persist', 'Defines wether the diff database should be persistent or be rollbacked after diff.' )
+    .alias( 'p', 'db_persist' )
+    .boolean( 'db_persist' )
 
-    .argv;
+.argv;
 
 if ( argv.version )
 {
@@ -188,7 +191,9 @@ function executeDump()
         console.log( 'Note that in compatible mode partitions, fulltext indexes and other DataBase Specific Features you made will be lost. This may be possible in any future release.' );
     }
     else
+    {
         console.log( 'Running in DataBase Specific mode.' );
+    }
 
     createMigrationDir( argv[ 'migrations-dir' ], function ( err )
     {
@@ -225,7 +230,9 @@ function executeDump()
             } );
         }
         else
+        {
             connect( config.getCurrent().settings, buildMigration );
+        }
     } );
 }
 
