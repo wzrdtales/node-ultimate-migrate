@@ -773,7 +773,7 @@ lab.experiment( 'builder', function ()
     } );
 
 
-    lab.test( 'returns if driver was closed without problems', function ( done )
+    lab.test( 'returns true if driver was closed without problems', function ( done )
     {
 
         build.close();
