@@ -46,9 +46,9 @@ lab.experiment( 'builder/', function ()
         {
 
             var finArr = [
-                [ 'test1', 'test2', 'test3' ],
-                [ 'test5', 'test6' ]
-            ],
+                    [ 'test1', 'test2', 'test3' ],
+                    [ 'test5', 'test6' ]
+                ],
                 subArr = [
                     [ 'test4', 'test1' ],
                     [ 'test9', 'test5' ]
@@ -98,8 +98,8 @@ lab.experiment( 'builder/', function ()
         {
 
             var finArr = [
-                [ 'test4', 'undefined' ]
-            ],
+                    [ 'test4', 'undefined' ]
+                ],
                 matchArr = [
                     [ 'test4', 'test1' ],
                     [ 'test6', 'test5' ]
@@ -162,9 +162,9 @@ lab.experiment( 'builder/', function ()
         {
 
             var finArr1 = [
-                [],
-                []
-            ],
+                    [],
+                    []
+                ],
                 finArr2 = [
                     [],
                     []
@@ -192,9 +192,9 @@ lab.experiment( 'builder/', function ()
         {
 
             var finArr = [
-                [],
-                [ 'test2', 'test4', 'test5' ]
-            ],
+                    [],
+                    [ 'test2', 'test4', 'test5' ]
+                ],
                 diffArr1 = [ 'test1', 'test3' ],
                 diffArr2 = [ 'test1', 'test2', 'test3', 'test4', 'test5' ];
 
@@ -209,14 +209,14 @@ lab.experiment( 'builder/', function ()
         {
 
             var finArr = [
-                [
-                    [ 'test9', 'test5' ]
+                    [
+                        [ 'test9', 'test5' ]
+                    ],
+                    [
+                        [ 'test1', 'test2', 'test3' ],
+                        [ 'test5', 'test6' ]
+                    ]
                 ],
-                [
-                    [ 'test1', 'test2', 'test3' ],
-                    [ 'test5', 'test6' ]
-                ]
-            ],
                 diffArr1 = [
                     [ 'test4', 'test1' ],
                     [ 'test9', 'test5' ]
@@ -228,6 +228,78 @@ lab.experiment( 'builder/', function ()
                 ];
 
             var actual = build.diffArr( diffArr1, diffArr2 );
+
+            Code.expect( actual ).to.be.an.array();
+            Code.expect( actual ).to.deep.equal( finArr );
+            done();
+        } );
+    } );
+
+    lab.experiment( 'moveItem', function ()
+    {
+        // arr, index, position, overwrite
+        lab.test( 'returns true if the given index was moved to the wished new index, less to high index', function ( done )
+        {
+
+            var finArr = [
+                    [ 'test3', 'test4', 'test2', 'test5', 'test1' ]
+                ],
+                inputArr = [
+                    [ 'test2', 'test3', 'test4', 'test5', 'test1' ]
+                ];
+
+            var actual = build.moveItem( inputArr, 0, 2 );
+
+            Code.expect( actual ).to.be.an.array();
+            Code.expect( actual ).to.deep.equal( finArr );
+            done();
+        } );
+
+        lab.test( 'returns true if the given index was moved to the wished new index, less to high index + overwrite mode', function ( done )
+        {
+
+            var finArr = [
+                    [ 'test3', 'test4', 'test2', 'test1' ]
+                ],
+                inputArr = [
+                    [ 'test2', 'test3', 'test4', 'test5', 'test1' ]
+                ];
+
+            var actual = build.moveItem( inputArr, 0, 3, true );
+
+            Code.expect( actual ).to.be.an.array();
+            Code.expect( actual ).to.deep.equal( finArr );
+            done();
+        } );
+
+        lab.test( 'returns true if the given index was moved to the wished new index, high to less index', function ( done )
+        {
+
+            var finArr = [
+                    [ 'test1', 'test2', 'test3', 'test4', 'test5' ]
+                ],
+                inputArr = [
+                    [ 'test2', 'test3', 'test4', 'test5', 'test1' ]
+                ];
+
+            var actual = build.moveItem( inputArr, 4, 0 );
+
+            Code.expect( actual ).to.be.an.array();
+            Code.expect( actual ).to.deep.equal( finArr );
+            done();
+        } );
+
+        lab.test( 'returns true if the given index was moved to the wished new index, high to less index + overwrite mode', function ( done )
+        {
+
+            var finArr = [
+                    [ 'test1', 'test3', 'test4', 'test5' ]
+                ],
+                inputArr = [
+                    [ 'test2', 'test3', 'test4', 'test5', 'test1' ]
+                ];
+
+            var actual = build.moveItem( inputArr, 4, 0, true );
 
             Code.expect( actual ).to.be.an.array();
             Code.expect( actual ).to.deep.equal( finArr );
