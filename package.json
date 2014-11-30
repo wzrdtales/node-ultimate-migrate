@@ -23,7 +23,7 @@
   "scripts": {
     "test": "make test-cov"
   },
-  "version": "0.4.32",
+  "version": "0.4.33",
   "dependencies": {
     "async": "~0.1.15",
     "auto-loader": "^0.2.0",
