@@ -11,11 +11,12 @@ Version 1.0.0 will be completely backward compatible to any released 0.x.x Versi
 
 # 0.6.x
  * Implemented Trigger logic
+ * Implemented View logic
  * Covered Trigger logic with tests
 
 # 0.7.x
  * Implemented function and procedure logic
- * Covered function and procedure logic with tests
+ * Covered function and procedure logic with testswat ht
 
 # 0.8.x
  * Implemented Laravel Migration generator

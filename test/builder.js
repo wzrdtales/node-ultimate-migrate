@@ -1,3 +1,5 @@
+global.dryRun =  true;
+
 var Builder = require( '../lib/builder.js' ),
     Code = require( 'code' ),
     Lab = require( 'lab' ),
@@ -5,63 +7,169 @@ var Builder = require( '../lib/builder.js' ),
 
 var internals = {
 
-    template: {
+    template:
+    {
 
-        table: function ( table, columns, drop )
-        {
-        },
+        table: function ( table, columns, drop ) {},
 
-        columns: function ( table, columns, drop )
-        {
-        },
+        columns: function ( table, columns, drop ) {},
 
-        changeKeys: function ( table, keys, drop, index )
-        {
-        },
+        changeKeys: function ( table, keys, drop, index ) {},
 
-        keys: function ( table, keys, drop, index )
-        {
-        },
+        keys: function ( table, keys, drop, index ) {},
 
-        engine: function ( table, engines, drop )
-        {
-        }
+        engine: function ( table, engines, drop ) {}
     },
 
-    driver: {
+    driver:
+    {
 
         capabilities: [
-            'tables', 'views', 'functions', 'procedures',
-            'indizies', 'foreign_keys', 'engines'
+            'tables', 'views', 'engines'
         ],
 
         getTables: function ( config, callback )
         {
+            callback( [
+                [
+                    [ 'atew', 'definetly', 'deleted', 'test' ],
+                    [ 'tew' ]
+                ],
+                [
+                    [ 'atew', 'definetly', 'test', 'test2' ],
+                    [ 'tew' ]
+                ]
+            ] );
         },
 
         getColumns: function ( config, tables, context, callback )
         {
+            var data = [];
+
+            data[ 0 ] = [];
+            data[ 1 ] = [];
+
+            data[ 0 ].atew = [
+                [ 'te', [ 'double', '11,3', 'unsigned' ],
+                    false,
+                    '0.000',
+                    false,
+                    ''
+                ],
+                [ 'lol', [ 'varchar', '255', 0 ], true, null, false, '' ],
+                [ 'id', [ 'int', '10', 'unsigned' ], false, null, false, '' ],
+                [ 'lol__id', [ 'int', '11', 0 ], false, null, false, '' ],
+                [ 'test', [ 'timestamp', 0, 0 ], true, null, false, '' ],
+                [ 'twocolumns', [ 'int', '11', 0 ], false, null, true, '' ]
+            ];
+
+            data[ 0 ].definetly = [
+                [ 'lolwtf', [ 'int', '9', 0 ], true, null, false, '' ]
+            ];
+
+            data[ 0 ].test = [
+                [ 'cdid', [ 'int', '10', 'unsigned' ], false, null, true, '' ],
+                [ 'test', [ 'varchar', '255', 0 ], true, null, false, '' ],
+                [ 'rofl_id', [ 'int', '11', 0 ], false, null, false, '' ]
+            ];
+
+            data[ 0 ].deleted = [
+                [ 'id', [ 'int', '10', 'unsigned' ], false, null, false, '' ]
+            ];
+
+            data[ 1 ].atew = [
+                [ 'te', [ 'double', '11,3', 'unsigned' ],
+                    false,
+                    '0.000',
+                    false,
+                    ''
+                ],
+                [ 'lol', [ 'varchar', '255', 0 ], true, null, false, '' ],
+                [ 'id', [ 'int', '10', 'unsigned' ], false, null, false, '' ],
+                [ 'lol__id', [ 'int', '11', 0 ], false, null, false, '' ],
+                [ 'test', [ 'timestamp', 0, 0 ],
+                    false,
+                    'CURRENT_TIMESTAMP',
+                    false,
+                    'OUCT'
+                ],
+                [ 'twocolumns', [ 'int', '11', 0 ], false, null, true, '' ]
+            ];
+
+            data[ 1 ].definetly = [
+                [ 'lolwtf', [ 'int', '9', 0 ], true, null, false, '' ]
+            ];
+
+            data[ 1 ].test = [
+                [ 'cdid', [ 'int', '10', 'unsigned' ], false, null, true, '' ],
+                [ 'test', [ 'varchar', '255', 0 ], true, null, false, '' ],
+                [ 'rofl_id', [ 'int', '11', 0 ], false, null, false, '' ]
+            ];
+
+            data[ 1 ].test2 = [
+                [ 'id', [ 'int', '10', 'unsigned' ], false, null, false, '' ]
+            ];
+
+
+            callback( context, data );
         },
 
-        getFn: function ( config, callback )
-        {
-        },
+        getFn: function ( config, callback ) {},
 
         getEngine: function ( config, context, callback )
         {
+
+            var data = [
+                [
+                    [ 'atew', 'InnoDB' ],
+                    [ 'definetly', 'InnoDB' ],
+                    [ 'test', 'InnoDB' ],
+                    [ 'tew', null ]
+                ],
+                [
+                    [ 'atew', 'InnoDB' ],
+                    [ 'definetly', 'InnoDB' ],
+                    [ 'test', 'InnoDB' ],
+                    [ 'tew', null ]
+                ]
+            ];
+
+            callback( context, data );
         },
 
-        getIndizies: function ( config, tables, context, callback )
-        {
-        },
+        getIndizies: function ( config, tables, context, callback ) {},
 
-        getFK: function ( config, tables, context, callback )
-        {
-        },
+        getFK: function ( config, tables, context, callback ) {},
 
-        close: function ()
+        close: function () {}
+    },
+
+    config:
+    {
+
+        filestring: '%action%_%filename%',
+        primary: true,
+        beautifier: 'js-beautify',
+
+        beautifier_options:
         {
-        }
+            indent_size: 4,
+            indent_char: ' ',
+            indent_with_tabs: false,
+            preserve_newlines: true,
+            max_preserve_newlines: 10,
+            space_in_paren: true,
+            e4x: false,
+            jslint_happy: true,
+            brace_style: 'expand',
+            keep_array_indentation: false,
+            keep_function_indentation: false,
+            eval_code: false,
+            unescape_strings: false,
+            wrap_line_length: 0,
+            break_chained_methods: false
+        },
+        db_persist: true
     }
 };
 
@@ -79,17 +187,26 @@ lab.experiment( 'builder/', function ()
     );
 
 
-    lab.experiment( 'subArr', { parallel: true }, function ()
+    lab.experiment( 'subArr',
+    {
+        parallel: false
+    }, function ()
     {
 
-        lab.test( 'returns true if the element itself is null or undefined', { parallel: true }, function ( done )
+        lab.test( 'returns true if the element itself is null or undefined',
+        {
+            parallel: false
+        }, function ( done )
         {
 
             Code.expect( build.subArr( undefined, [] ) ).equal( undefined );
             done();
         } );
 
-        lab.test( 'returns true when the processed array was substracted as expected, single layer', { parallel: true }, function ( done )
+        lab.test( 'returns true when the processed array was substracted as expected, single layer',
+        {
+            parallel: false
+        }, function ( done )
         {
 
             var finArr = [ 'test2', 'test4', 'test5' ],
@@ -104,13 +221,16 @@ lab.experiment( 'builder/', function ()
             done();
         } );
 
-        lab.test( 'returns true when the processed array was substracted as expected, double layer (only first element counts)', { parallel: true }, function ( done )
+        lab.test( 'returns true when the processed array was substracted as expected, double layer (only first element counts)',
+        {
+            parallel: false
+        }, function ( done )
         {
 
             var finArr = [
-                    [ 'test1', 'test2', 'test3' ],
-                    [ 'test5', 'test6' ]
-                ],
+                [ 'test1', 'test2', 'test3' ],
+                [ 'test5', 'test6' ]
+            ],
                 subArr = [
                     [ 'test4', 'test1' ],
                     [ 'test9', 'test5' ]
@@ -131,17 +251,26 @@ lab.experiment( 'builder/', function ()
     } );
 
 
-    lab.experiment( 'matchArr', { parallel: true }, function ()
+    lab.experiment( 'matchArr',
+    {
+        parallel: false
+    }, function ()
     {
 
-        lab.test( 'returns true if the element itself is null or undefined', { parallel: true }, function ( done )
+        lab.test( 'returns true if the element itself is null or undefined',
+        {
+            parallel: false
+        }, function ( done )
         {
 
             Code.expect( build.matchArr( undefined, [] ) ).equal( undefined );
             done();
         } );
 
-        lab.test( 'returns true when the processed array was substracted as expected, single layer', { parallel: true }, function ( done )
+        lab.test( 'returns true when the processed array was substracted as expected, single layer',
+        {
+            parallel: false
+        }, function ( done )
         {
 
             var finArr = [ 'test1' ],
@@ -156,12 +285,15 @@ lab.experiment( 'builder/', function ()
             done();
         } );
 
-        lab.test( 'returns true when the processed array was substracted as expected, double layer (only first element counts)', { parallel: true }, function ( done )
+        lab.test( 'returns true when the processed array was substracted as expected, double layer (only first element counts)',
+        {
+            parallel: false
+        }, function ( done )
         {
 
             var finArr = [
-                    [ 'test4', 'undefined' ]
-                ],
+                [ 'test4', 'undefined' ]
+            ],
                 matchArr = [
                     [ 'test4', 'test1' ],
                     [ 'test6', 'test5' ]
@@ -181,17 +313,26 @@ lab.experiment( 'builder/', function ()
         } );
     } );
 
-    lab.experiment( 'buildArr', { parallel: true }, function ()
+    lab.experiment( 'buildArr',
+    {
+        parallel: false
+    }, function ()
     {
 
-        lab.test( 'returns true if one element itself is null or undefined and the other one gets returned', { parallel: true }, function ( done )
+        lab.test( 'returns true if one element itself is null or undefined and the other one gets returned',
+        {
+            parallel: false
+        }, function ( done )
         {
 
             Code.expect( build.buildArr( undefined ) ).equal( undefined );
             done();
         } );
 
-        lab.test( 'returns true when the processed array was build correctly', { parallel: true }, function ( done )
+        lab.test( 'returns true when the processed array was build correctly',
+        {
+            parallel: false
+        }, function ( done )
         {
 
             var finObj = [],
@@ -217,16 +358,22 @@ lab.experiment( 'builder/', function ()
         } );
     } );
 
-    lab.experiment( 'diffArr', { parallel: true }, function ()
+    lab.experiment( 'diffArr',
+    {
+        parallel: false
+    }, function ()
     {
 
-        lab.test( 'returns true if the element itself is null or undefined', { parallel: true }, function ( done )
+        lab.test( 'returns true if the element itself is null or undefined',
+        {
+            parallel: false
+        }, function ( done )
         {
 
             var finArr1 = [
-                    [],
-                    []
-                ],
+                [],
+                []
+            ],
                 finArr2 = [
                     [],
                     []
@@ -250,13 +397,16 @@ lab.experiment( 'builder/', function ()
             done();
         } );
 
-        lab.test( 'returns true when the processed array differences are correct, single layer', { parallel: true }, function ( done )
+        lab.test( 'returns true when the processed array differences are correct, single layer',
+        {
+            parallel: false
+        }, function ( done )
         {
 
             var finArr = [
-                    [],
-                    [ 'test2', 'test4', 'test5' ]
-                ],
+                [],
+                [ 'test2', 'test4', 'test5' ]
+            ],
                 diffArr1 = [ 'test1', 'test3' ],
                 diffArr2 = [ 'test1', 'test2', 'test3', 'test4', 'test5' ];
 
@@ -267,18 +417,21 @@ lab.experiment( 'builder/', function ()
             done();
         } );
 
-        lab.test( 'returns true when the processed array differences are correct, double layer (only first element)', { parallel: true }, function ( done )
+        lab.test( 'returns true when the processed array differences are correct, double layer (only first element)',
+        {
+            parallel: false
+        }, function ( done )
         {
 
             var finArr = [
-                    [
-                        [ 'test9', 'test5' ]
-                    ],
-                    [
-                        [ 'test1', 'test2', 'test3' ],
-                        [ 'test5', 'test6' ]
-                    ]
+                [
+                    [ 'test9', 'test5' ]
                 ],
+                [
+                    [ 'test1', 'test2', 'test3' ],
+                    [ 'test5', 'test6' ]
+                ]
+            ],
                 diffArr1 = [
                     [ 'test4', 'test1' ],
                     [ 'test9', 'test5' ]
@@ -297,10 +450,16 @@ lab.experiment( 'builder/', function ()
         } );
     } );
 
-    lab.experiment( 'moveItem', { parallel: true }, function ()
+    lab.experiment( 'moveItem',
+    {
+        parallel: false
+    }, function ()
     {
 
-        lab.test( 'returns true if the given index is the same, the **same** array which was inputted should be returned', { parallel: true }, function( done )
+        lab.test( 'returns true if the given index is the same, the **same** array which was inputted should be returned',
+        {
+            parallel: false
+        }, function ( done )
         {
             var inputArr = [ 'test2', 'test3', 'test4', 'test5', 'test1' ];
 
@@ -311,7 +470,10 @@ lab.experiment( 'builder/', function ()
             done();
         } );
 
-        lab.test( 'returns true if the given index was moved to the wished new index, less to high index', { parallel: true }, function ( done )
+        lab.test( 'returns true if the given index was moved to the wished new index, less to high index',
+        {
+            parallel: false
+        }, function ( done )
         {
 
             var finArr = [],
@@ -320,21 +482,21 @@ lab.experiment( 'builder/', function ()
                     [ 'test2', 'test3', 'test4', 'test5', 'test1' ]
                 ];
 
-            finArr[0] = [
+            finArr[ 0 ] = [
                 [ 'test3', 'test4', 'test2', 'test5', 'test1' ]
             ];
-            finArr[1] = [
+            finArr[ 1 ] = [
                 [ 'test2', 'test4', 'test5', 'test3', 'test1' ]
             ];
-            finArr[2] = [
+            finArr[ 2 ] = [
                 [ 'test2', 'test3', 'test5', 'test1', 'test4' ]
             ];
 
-            pairs[0] = [ 0, 2 ];
-            pairs[1] = [ 1, 3 ];
-            pairs[2] = [ 2, 4 ];
+            pairs[ 0 ] = [ 0, 2 ];
+            pairs[ 1 ] = [ 1, 3 ];
+            pairs[ 2 ] = [ 2, 4 ];
 
-            for( var i = 0; i < finArr.length; ++i )
+            for ( var i = 0; i < finArr.length; ++i )
             {
                 var actual = build.moveItem( inputArr, pairs[ i ][ 0 ], pairs[ i ][ 1 ] );
 
@@ -345,7 +507,10 @@ lab.experiment( 'builder/', function ()
             done();
         } );
 
-        lab.test( 'returns true if the given index was moved to the wished new index, less to high index + overwrite mode', { parallel: true }, function ( done )
+        lab.test( 'returns true if the given index was moved to the wished new index, less to high index + overwrite mode',
+        {
+            parallel: false
+        }, function ( done )
         {
 
             var finArr = [],
@@ -354,21 +519,21 @@ lab.experiment( 'builder/', function ()
                     [ 'test2', 'test3', 'test4', 'test5', 'test1' ]
                 ];
 
-            finArr[0] = [
+            finArr[ 0 ] = [
                 [ 'test3', 'test4', 'test2', 'test1' ]
             ];
-            finArr[1] = [
+            finArr[ 1 ] = [
                 [ 'test2', 'test4', 'test3', 'test1' ]
             ];
-            finArr[2] = [
+            finArr[ 2 ] = [
                 [ 'test2', 'test3', 'test5', 'test4' ]
             ];
 
-            pairs[0] = [ 0, 3 ];
-            pairs[1] = [ 1, 3 ];
-            pairs[2] = [ 2, 4 ];
+            pairs[ 0 ] = [ 0, 3 ];
+            pairs[ 1 ] = [ 1, 3 ];
+            pairs[ 2 ] = [ 2, 4 ];
 
-            for( var i = 0; i < finArr.length; ++i )
+            for ( var i = 0; i < finArr.length; ++i )
             {
                 var actual = build.moveItem( inputArr, pairs[ i ][ 0 ], pairs[ i ][ 1 ], true );
 
@@ -379,7 +544,10 @@ lab.experiment( 'builder/', function ()
             done();
         } );
 
-        lab.test( 'returns true if the given index was moved to the wished new index, high to less index', { parallel: true }, function ( done )
+        lab.test( 'returns true if the given index was moved to the wished new index, high to less index',
+        {
+            parallel: false
+        }, function ( done )
         {
 
             var finArr = [],
@@ -388,33 +556,36 @@ lab.experiment( 'builder/', function ()
                     [ 'test2', 'test3', 'test4', 'test5', 'test1' ]
                 ];
 
-            finArr[0] = [
+            finArr[ 0 ] = [
                 [ 'test1', 'test2', 'test3', 'test4', 'test5' ]
             ];
-            finArr[1] = [
+            finArr[ 1 ] = [
                 [ 'test2', 'test5', 'test3', 'test4', 'test1' ]
             ];
-            finArr[2] = [
+            finArr[ 2 ] = [
                 [ 'test2', 'test3', 'test1', 'test4', 'test5' ]
             ];
 
-            pairs[0] = [ 4, 0 ];
-            pairs[1] = [ 3, 1 ];
-            pairs[2] = [ 4, 2 ];
+            pairs[ 0 ] = [ 4, 0 ];
+            pairs[ 1 ] = [ 3, 1 ];
+            pairs[ 2 ] = [ 4, 2 ];
 
 
-            for( var i = 0; i < finArr.length; ++i )
+            for ( var i = 0; i < finArr.length; ++i )
             {
                 var actual = build.moveItem( inputArr, pairs[ i ][ 0 ], pairs[ i ][ 1 ] );
 
                 Code.expect( actual ).to.be.an.array();
                 Code.expect( actual ).to.deep.equal( finArr[ i ] );
             }
-            
+
             done();
         } );
 
-        lab.test( 'returns true if the given index was moved to the wished new index, high to less index + overwrite mode', { parallel: true }, function ( done )
+        lab.test( 'returns true if the given index was moved to the wished new index, high to less index + overwrite mode',
+        {
+            parallel: false
+        }, function ( done )
         {
 
             var finArr = [],
@@ -423,21 +594,21 @@ lab.experiment( 'builder/', function ()
                     [ 'test2', 'test3', 'test4', 'test5', 'test1' ]
                 ];
 
-            finArr[0] = [
+            finArr[ 0 ] = [
                 [ 'test1', 'test3', 'test4', 'test5' ]
             ];
-            finArr[1] = [
+            finArr[ 1 ] = [
                 [ 'test2', 'test5', 'test4', 'test1' ]
             ];
-            finArr[2] = [
+            finArr[ 2 ] = [
                 [ 'test2', 'test3', 'test1', 'test5' ]
             ];
 
-            pairs[0] = [ 4, 0 ];
-            pairs[1] = [ 3, 1 ];
-            pairs[2] = [ 4, 2 ];
+            pairs[ 0 ] = [ 4, 0 ];
+            pairs[ 1 ] = [ 3, 1 ];
+            pairs[ 2 ] = [ 4, 2 ];
 
-            for( var i = 0; i < finArr.length; ++i )
+            for ( var i = 0; i < finArr.length; ++i )
             {
                 var actual = build.moveItem( inputArr, pairs[ i ][ 0 ], pairs[ i ][ 1 ], true );
 
@@ -450,7 +621,7 @@ lab.experiment( 'builder/', function ()
     } );
 } );
 
-lab.experiment( 'builder', function() 
+lab.experiment( 'builder', function ()
 {
 
     var build = new Builder(
@@ -458,5 +629,15 @@ lab.experiment( 'builder', function()
         internals.template,
         'test/migrations'
     );
-} );
 
+    lab.before( function ( done )
+    {
+
+        build.build( internals.config, function ( next )
+        {
+
+            next();
+        }, done );
+    } );
+
+} );
