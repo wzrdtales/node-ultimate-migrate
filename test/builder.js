@@ -128,7 +128,8 @@ var internals = {
                 [ 'id', [ 'int', '10', 'unsigned' ], false, null, false, '' ],
                 [ 'lol__id', [ 'int', '11', 0 ], false, null, false, '' ],
                 [ 'test', [ 'timestamp', 0, 0 ], true, null, false, '' ],
-                [ 'twocolumns', [ 'int', '11', 0 ], false, null, true, '' ]
+                [ 'twocolumns', [ 'int', '11', 0 ], false, null, true, '' ],
+                [ 'deleted', [ 'int', '11', 0 ], false, null, true, '' ]
             ];
 
             data[ 0 ].definetly = [
@@ -171,7 +172,8 @@ var internals = {
             data[ 1 ].test = [
                 [ 'cdid', [ 'int', '10', 'unsigned' ], false, null, true, '' ],
                 [ 'test', [ 'varchar', '255', 0 ], true, null, false, '' ],
-                [ 'rofl_id', [ 'int', '11', 0 ], false, null, false, '' ]
+                [ 'rofl_id', [ 'int', '11', 0 ], false, null, false, '' ],
+                [ 'deleted', [ 'int', '11', 0 ], false, null, false, '' ]
             ];
 
             data[ 1 ].test2 = [
@@ -767,6 +769,29 @@ lab.experiment( 'builder', function ()
         for( var i = 0; i < _table.table.length; ++i )
         {
             Code.expect( _table.columns[ i ] ).to.be.an.array().and.to.deep.equal( data[ _table.table[ i ] ] );
+        }
+
+        done();
+    } );
+
+    lab.test( 'returns if columns were diffed as expected',
+    {
+        parallel: true
+    }, function ( done )
+    {
+        var data = [],
+            _columns = internals.template._columns;
+
+        data.atew = [
+            [ 'deleted', [ 'int', '11', 0 ], false, null, true, '' ]
+        ];
+        data.test = [
+            [ 'deleted', [ 'int', '11', 0 ], false, null, false, '' ]
+        ];
+
+        for( var i = 0; i < _columns.table.length; ++i )
+        {
+            Code.expect( _columns.columns[ i ] ).to.be.an.array().and.to.deep.equal( data[ _columns.table[ i ] ] );
         }
 
         done();
