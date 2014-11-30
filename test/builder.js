@@ -3,6 +3,68 @@ var Builder = require( '../lib/builder.js' ),
     Lab = require( 'lab' ),
     lab = exports.lab = Lab.script();
 
+var internals = {
+
+    template: {
+
+        table: function ( table, columns, drop )
+        {
+        },
+
+        columns: function ( table, columns, drop )
+        {
+        },
+
+        changeKeys: function ( table, keys, drop, index )
+        {
+        },
+
+        keys: function ( table, keys, drop, index )
+        {
+        },
+
+        engine: function ( table, engines, drop )
+        {
+        }
+    },
+
+    driver: {
+
+        capabilities: [
+            'tables', 'views', 'functions', 'procedures',
+            'indizies', 'foreign_keys', 'engines'
+        ],
+
+        getTables: function ( config, callback )
+        {
+        },
+
+        getColumns: function ( config, tables, context, callback )
+        {
+        },
+
+        getFn: function ( config, callback )
+        {
+        },
+
+        getEngine: function ( config, context, callback )
+        {
+        },
+
+        getIndizies: function ( config, tables, context, callback )
+        {
+        },
+
+        getFK: function ( config, tables, context, callback )
+        {
+        },
+
+        close: function ()
+        {
+        }
+    }
+};
+
 lab.experiment( 'builder/', function ()
 {
 
@@ -17,17 +79,17 @@ lab.experiment( 'builder/', function ()
     );
 
 
-    lab.experiment( 'subArr', function ()
+    lab.experiment( 'subArr', { parallel: true }, function ()
     {
 
-        lab.test( 'returns true if the element itself is null or undefined', function ( done )
+        lab.test( 'returns true if the element itself is null or undefined', { parallel: true }, function ( done )
         {
 
             Code.expect( build.subArr( undefined, [] ) ).equal( undefined );
             done();
         } );
 
-        lab.test( 'returns true when the processed array was substracted as expected, single layer', function ( done )
+        lab.test( 'returns true when the processed array was substracted as expected, single layer', { parallel: true }, function ( done )
         {
 
             var finArr = [ 'test2', 'test4', 'test5' ],
@@ -42,7 +104,7 @@ lab.experiment( 'builder/', function ()
             done();
         } );
 
-        lab.test( 'returns true when the processed array was substracted as expected, double layer (only first element counts)', function ( done )
+        lab.test( 'returns true when the processed array was substracted as expected, double layer (only first element counts)', { parallel: true }, function ( done )
         {
 
             var finArr = [
@@ -69,17 +131,17 @@ lab.experiment( 'builder/', function ()
     } );
 
 
-    lab.experiment( 'matchArr', function ()
+    lab.experiment( 'matchArr', { parallel: true }, function ()
     {
 
-        lab.test( 'returns true if the element itself is null or undefined', function ( done )
+        lab.test( 'returns true if the element itself is null or undefined', { parallel: true }, function ( done )
         {
 
             Code.expect( build.matchArr( undefined, [] ) ).equal( undefined );
             done();
         } );
 
-        lab.test( 'returns true when the processed array was substracted as expected, single layer', function ( done )
+        lab.test( 'returns true when the processed array was substracted as expected, single layer', { parallel: true }, function ( done )
         {
 
             var finArr = [ 'test1' ],
@@ -94,7 +156,7 @@ lab.experiment( 'builder/', function ()
             done();
         } );
 
-        lab.test( 'returns true when the processed array was substracted as expected, double layer (only first element counts)', function ( done )
+        lab.test( 'returns true when the processed array was substracted as expected, double layer (only first element counts)', { parallel: true }, function ( done )
         {
 
             var finArr = [
@@ -119,17 +181,17 @@ lab.experiment( 'builder/', function ()
         } );
     } );
 
-    lab.experiment( 'buildArr', function ()
+    lab.experiment( 'buildArr', { parallel: true }, function ()
     {
 
-        lab.test( 'returns true if one element itself is null or undefined and the other one gets returned', function ( done )
+        lab.test( 'returns true if one element itself is null or undefined and the other one gets returned', { parallel: true }, function ( done )
         {
 
             Code.expect( build.buildArr( undefined ) ).equal( undefined );
             done();
         } );
 
-        lab.test( 'returns true when the processed array was build correctly', function ( done )
+        lab.test( 'returns true when the processed array was build correctly', { parallel: true }, function ( done )
         {
 
             var finObj = [],
@@ -155,10 +217,10 @@ lab.experiment( 'builder/', function ()
         } );
     } );
 
-    lab.experiment( 'diffArr', function ()
+    lab.experiment( 'diffArr', { parallel: true }, function ()
     {
 
-        lab.test( 'returns true if the element itself is null or undefined', function ( done )
+        lab.test( 'returns true if the element itself is null or undefined', { parallel: true }, function ( done )
         {
 
             var finArr1 = [
@@ -188,7 +250,7 @@ lab.experiment( 'builder/', function ()
             done();
         } );
 
-        lab.test( 'returns true when the processed array differences are correct, single layer', function ( done )
+        lab.test( 'returns true when the processed array differences are correct, single layer', { parallel: true }, function ( done )
         {
 
             var finArr = [
@@ -205,7 +267,7 @@ lab.experiment( 'builder/', function ()
             done();
         } );
 
-        lab.test( 'returns true when the processed array differences are correct, double layer (only first element)', function ( done )
+        lab.test( 'returns true when the processed array differences are correct, double layer (only first element)', { parallel: true }, function ( done )
         {
 
             var finArr = [
@@ -235,10 +297,10 @@ lab.experiment( 'builder/', function ()
         } );
     } );
 
-    lab.experiment( 'moveItem', function ()
+    lab.experiment( 'moveItem', { parallel: true }, function ()
     {
 
-        lab.test( 'returns true if the given index is the same, the **same** array which was inputted should be returned', function( done )
+        lab.test( 'returns true if the given index is the same, the **same** array which was inputted should be returned', { parallel: true }, function( done )
         {
             var inputArr = [ 'test2', 'test3', 'test4', 'test5', 'test1' ];
 
@@ -249,7 +311,7 @@ lab.experiment( 'builder/', function ()
             done();
         } );
 
-        lab.test( 'returns true if the given index was moved to the wished new index, less to high index', function ( done )
+        lab.test( 'returns true if the given index was moved to the wished new index, less to high index', { parallel: true }, function ( done )
         {
 
             var finArr = [],
@@ -283,7 +345,7 @@ lab.experiment( 'builder/', function ()
             done();
         } );
 
-        lab.test( 'returns true if the given index was moved to the wished new index, less to high index + overwrite mode', function ( done )
+        lab.test( 'returns true if the given index was moved to the wished new index, less to high index + overwrite mode', { parallel: true }, function ( done )
         {
 
             var finArr = [],
@@ -317,7 +379,7 @@ lab.experiment( 'builder/', function ()
             done();
         } );
 
-        lab.test( 'returns true if the given index was moved to the wished new index, high to less index', function ( done )
+        lab.test( 'returns true if the given index was moved to the wished new index, high to less index', { parallel: true }, function ( done )
         {
 
             var finArr = [],
@@ -352,7 +414,7 @@ lab.experiment( 'builder/', function ()
             done();
         } );
 
-        lab.test( 'returns true if the given index was moved to the wished new index, high to less index + overwrite mode', function ( done )
+        lab.test( 'returns true if the given index was moved to the wished new index, high to less index + overwrite mode', { parallel: true }, function ( done )
         {
 
             var finArr = [],
@@ -387,3 +449,14 @@ lab.experiment( 'builder/', function ()
         } );
     } );
 } );
+
+lab.experiment( 'builder', function() 
+{
+
+    var build = new Builder(
+        internals.driver,
+        internals.template,
+        'test/migrations'
+    );
+} );
+
