@@ -197,7 +197,7 @@ var internals = {
                     [ 'tew', null ]
                 ],
                 [
-                    [ 'atew', 'InnoDB' ],
+                    [ 'atew', 'Aria' ],
                     [ 'definetly', 'InnoDB' ],
                     [ 'test', 'InnoDB' ],
                     [ 'tew', null ]
@@ -226,7 +226,7 @@ var internals = {
 
             data[ 0 ].test = [
                 [ 'PRIMARY', true, '1', 'cdid', false, 'BTREE', '', '' ],
-                [ 'cdid', false, '1', 'cdid', false, 'BTREE', '', '' ],
+                [ 'cdid', false, '1', 'cdid', false, 'HASH', '', '' ],
                 [ 'cdid_2', false, '1', 'cdid', false, 'BTREE', '', '' ],
                 [ 'cdid_2', false, '2', 'rofl_id', false, 'BTREE', '', '' ]
             ];
