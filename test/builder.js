@@ -1,4 +1,4 @@
-global.dryRun =  true;
+global.dryRun = true;
 
 var Builder = require( '../lib/builder.js' ),
     Code = require( 'code' ),
@@ -7,25 +7,58 @@ var Builder = require( '../lib/builder.js' ),
 
 var internals = {
 
+
     template:
     {
+        _table: {},
+        _columns: {},
+        _changeKeys: {},
+        _keys: {},
+        _engine: {},
 
-        table: function ( table, columns, drop ) {},
+        table: function ( table, columns, drop )
+        {
 
-        columns: function ( table, columns, drop ) {},
+            this._table.table = table;
+            this._table.columns = columns;
 
-        changeKeys: function ( table, keys, drop, index ) {},
+            return 'var test = test;'; //return to activate write function
+        },
 
-        keys: function ( table, keys, drop, index ) {},
+        columns: function ( table, columns, drop ) 
+        {
 
-        engine: function ( table, engines, drop ) {}
+            this._columns.table = table;
+            this._columns.columns = columns;
+        },
+
+        changeKeys: function ( table, keys, drop, index ) 
+        {
+
+            this._changeKeys.table = table;
+            this._changeKeys.keys = keys;
+        },
+
+        keys: function ( table, keys, drop, index ) 
+        {
+
+            this._keys.table = table;
+            this._keys.keys = keys;
+        },
+
+        engine: function ( table, engines, drop ) 
+        {
+
+            this._engine.table = table;
+            this._engine.engines = engines;
+        }
     },
 
     driver:
     {
 
         capabilities: [
-            'tables', 'views', 'engines'
+            'tables', 'views', 'engines', 'indizies'
         ],
 
         getTables: function ( config, callback )
@@ -137,7 +170,49 @@ var internals = {
             callback( context, data );
         },
 
-        getIndizies: function ( config, tables, context, callback ) {},
+        getIndizies: function ( config, tables, context, callback )
+        {
+            var data = [];
+            data[ 0 ] = [];
+            data[ 1 ] = [];
+
+
+            data[ 0 ].atew = [
+                [ 'PRIMARY', true, '1', 'twocolumns', false, 'BTREE', '', '' ],
+                [ 'fktotest', true, '1', 'id', false, 'BTREE', '', '' ],
+                [ 'fktotest', true, '2', 'lol__id', false, 'BTREE', '', '' ],
+                [ 'ter', true, '1', 'te', false, 'BTREE', '', '' ],
+                [ 'ter', true, '2', 'lol', true, 'BTREE', '', '' ],
+                [ 'hthes', false, '1', 'te', false, 'BTREE', '', '' ],
+                [ 'roflxD', false, '1', 'lol', true, 'BTREE', '', '' ]
+            ];
+
+            data[ 0 ].test = [
+                [ 'PRIMARY', true, '1', 'cdid', false, 'BTREE', '', '' ],
+                [ 'cdid', false, '1', 'cdid', false, 'BTREE', '', '' ],
+                [ 'cdid_2', false, '1', 'cdid', false, 'BTREE', '', '' ],
+                [ 'cdid_2', false, '2', 'rofl_id', false, 'BTREE', '', '' ]
+            ];
+
+            data[ 1 ].atew = [
+                [ 'PRIMARY', true, '1', 'twocolumns', false, 'BTREE', '', '' ],
+                [ 'fktotest', true, '1', 'id', false, 'BTREE', '', '' ],
+                [ 'fktotest', true, '2', 'lol__id', false, 'BTREE', '', '' ],
+                [ 'ter', true, '1', 'te', false, 'BTREE', '', '' ],
+                [ 'ter', true, '2', 'lol', true, 'BTREE', '', '' ],
+                [ 'hthes', false, '1', 'te', false, 'BTREE', '', '' ],
+                [ 'roflxD', false, '1', 'lol', true, 'BTREE', '', '' ]
+            ];
+
+            data[ 1 ].test = [
+                [ 'PRIMARY', true, '1', 'cdid', false, 'BTREE', '', '' ],
+                [ 'cdid', false, '1', 'cdid', false, 'BTREE', '', '' ],
+                [ 'cdid_2', false, '1', 'cdid', false, 'BTREE', '', '' ],
+                [ 'cdid_2', false, '2', 'rofl_id', false, 'BTREE', '', '' ]
+            ];
+
+            callback( context, data );
+        },
 
         getFK: function ( config, tables, context, callback ) {},
 
@@ -632,7 +707,6 @@ lab.experiment( 'builder', function ()
 
     lab.before( function ( done )
     {
-
         build.build( internals.config, function ( next )
         {
 
@@ -640,4 +714,11 @@ lab.experiment( 'builder', function ()
         }, done );
     } );
 
+
+    lab.test( 'returns if driver was closed without problems', function ( done )
+    {
+
+        build.close();
+        done();
+    } );
 } );
