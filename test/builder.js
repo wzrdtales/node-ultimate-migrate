@@ -766,7 +766,7 @@ lab.experiment( 'builder', function ()
 
         for( var i = 0; i < _table.table.length; ++i )
         {
-            Code.expect( _table.columns[ i ] ).to.deep.equal( data[ _table.table[ i ] ] );
+            Code.expect( _table.columns[ i ] ).to.be.an.array().and.to.deep.equal( data[ _table.table[ i ] ] );
         }
 
         done();
