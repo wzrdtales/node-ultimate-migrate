@@ -1,0 +1,25 @@
+{
+    "folders":
+    [
+        {
+            "follow_symlinks": true,
+            "path": ".",
+            "tab_size": 4,
+            "translate_tabs_to_spaces": true,
+            "detect_indentation": false,
+            "default_encoding": "UTF-8",
+            "fallback_encoding": "UTF-8",
+            "default_line_ending": "unix"
+        }
+    ],
+    "SublimeLinter":
+    {
+        "linters":
+        {
+            "jscs":
+            {
+                
+            }
+        }
+    }
+}
