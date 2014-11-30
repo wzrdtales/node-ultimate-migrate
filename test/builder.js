@@ -751,7 +751,7 @@ lab.experiment( 'builder', function ()
         }, done );
     } );
 
-    lab.test( 'returns if tables were diffed as expected',
+    lab.test( 'returns true if tables were diffed as expected',
     {
         parallel: true
     }, function ( done )
@@ -774,7 +774,7 @@ lab.experiment( 'builder', function ()
         done();
     } );
 
-    lab.test( 'returns if columns were diffed as expected',
+    lab.test( 'returns true if columns were diffed as expected',
     {
         parallel: true
     }, function ( done )
