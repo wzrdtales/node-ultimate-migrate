@@ -10,47 +10,82 @@ var internals = {
 
     template:
     {
-        _table: {},
-        _columns: {},
-        _changeKeys: {},
-        _keys: {},
-        _engine: {},
+        _table:
+        {},
+        _columns:
+        {},
+        _changeKeys:
+        {},
+        _keys:
+        {},
+        _engine:
+        {},
 
         table: function ( table, columns, drop )
         {
 
-            this._table.table = table;
-            this._table.columns = columns;
+            if ( !this._table.table )
+                this._table.table = [];
+
+            if ( !this._table.columns )
+                this._table.columns = [];
+
+            this._table.table.push( table );
+            this._table.columns.push( columns );
 
             return 'var test = test;'; //return to activate write function
         },
 
-        columns: function ( table, columns, drop ) 
+        columns: function ( table, columns, drop )
         {
 
-            this._columns.table = table;
-            this._columns.columns = columns;
+            if ( !this._columns.table )
+                this._columns.table = [];
+
+            if ( !this._columns.columns )
+                this._columns.columns = [];
+
+            this._columns.table.push( table );
+            this._columns.columns.push( columns );
         },
 
-        changeKeys: function ( table, keys, drop, index ) 
+        changeKeys: function ( table, keys, drop, index )
         {
 
-            this._changeKeys.table = table;
-            this._changeKeys.keys = keys;
+            if ( !this._changeKeys.table )
+                this._changeKeys.table = [];
+
+            if ( !this._changeKeys.keys )
+                this._changeKeys.keys = [];
+
+            this._changeKeys.table.push( table );
+            this._changeKeys.keys.push( keys );
         },
 
-        keys: function ( table, keys, drop, index ) 
+        keys: function ( table, keys, drop, index )
         {
 
-            this._keys.table = table;
-            this._keys.keys = keys;
+            if ( !this._keys.table )
+                this._keys.table = [];
+
+            if ( !this._keys.keys )
+                this._keys.keys = [];
+
+            this._keys.table.push( table );
+            this._keys.keys.push( keys );
         },
 
-        engine: function ( table, engines, drop ) 
+        engine: function ( table, engines, drop )
         {
 
-            this._engine.table = table;
-            this._engine.engines = engines;
+            if ( !this._engine.table )
+                this._engine.table = [];
+
+            if ( !this._engine.engines )
+                this._engine.engines = [];
+
+            this._engine.table.push( table );
+            this._engine.engines.push( engines );
         }
     },
 
@@ -712,6 +747,29 @@ lab.experiment( 'builder', function ()
 
             next();
         }, done );
+    } );
+
+    lab.test( 'returns if tables were diffed as expected',
+    {
+        parallel: true
+    }, function ( done )
+    {
+        var data = [],
+            _table = internals.template._table;
+
+        data.deleted = [
+            [ 'id', [ 'int', '10', 'unsigned' ], false, null, false, '' ]
+        ];
+        data.test2 = [
+            [ 'id', [ 'int', '10', 'unsigned' ], false, null, false, '' ]
+        ];
+
+        for( var i = 0; i < _table.table.length; ++i )
+        {
+            Code.expect( _table.columns[ i ] ).to.deep.equal( data[ _table.table[ i ] ] );
+        }
+
+        done();
     } );
 
 
