@@ -14,6 +14,7 @@ Having problems while installation? Reading this may solve all your problems!
 
  * MariaDB(MySQL) (https://github.com/mscdex/node-mariasql/)
 
+
 ## Usage
 
 ### Migrator
@@ -122,6 +123,12 @@ I want to be able to use a different Migrator (for example Laravel Migrations).
 You want to contribute? Great!
 
 You can read the cs rules in the `.jscsrc` file or directly use it with jscs. I would advise advise you to use `Sublime Linter` + `JSCS` and `JSHINT`. Also I prefer the `Allman Style`, so you might use it, too.
+
+If you open a pull request, make sure that you've covered your changes with tests. A pull request without appropiate tests wont be merged, unless I've got the time to write the tests myself.
+
+To check tests and codestyles you can run:
+
+    $ make
 
 To make things easier you can also use the `sublime text` plugin `code formatter`, with the following config:
 

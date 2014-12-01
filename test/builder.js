@@ -285,18 +285,27 @@ var internals = {
     }
 };
 
-lab.experiment( 'builder/', function ()
+lab.experiment( 'builder/', { parallel: false }, function ()
 {
-
-    var build = new Builder(
-
-        {
-            capabilities:
-            {}
+    var _int = {
+            capabilities: []
         },
-        undefined,
-        'test/migrations'
-    );
+        _config = {
+
+        },
+        build;
+
+    lab.before( function ( done )
+    {
+        build = new Builder(
+            _int,        
+            undefined,
+            'test/migrations',
+            _config
+        );
+
+        done();
+    } );
 
 
     lab.experiment( 'subArr',
@@ -731,19 +740,81 @@ lab.experiment( 'builder/', function ()
             done();
         } );
     } );
+
+    lab.test( 'checkCap, returns true if checkCaps validates as expected', { parallel: true }, function ( done )
+    {
+
+        Code.expect( build.checkCap( 'getTables', true, function() {} ) ).to.be.an.boolean().and.to.equal( false );
+        Code.expect( build.checkCap( 'indizies', true, function() {} ) ).to.be.an.boolean().and.to.equal( false );
+
+        //calling without optional
+        Code.expect( build.checkCap( 'indizies', function() {} ) ).to.be.an.boolean().and.to.equal( false );
+        Code.expect( build.checkCap( 'getTables', function() {} ) ).to.be.an.boolean().and.to.equal( false );
+
+        _int.capabilities.push( 'tables' );
+        Code.expect( build.checkCap( 'getTables', true, function() {} ) ).to.be.an.boolean().and.to.equal( true );
+        
+
+        _int.capabilities.push( 'indizies' );
+        Code.expect( build.checkCap( 'indizies', true, function() {} ) ).to.be.an.boolean().and.to.equal( true );
+
+        done();
+    } );
+
+    lab.test( 'write(), returns true if write functionality works as expected', { parallel: false }, function ( done )
+    {
+
+        Code.expect( build.write() ).to.be.an.boolean().and.to.equal( false ); //failing without everything
+        Code.expect( build.write( 'test', 'test' ) );
+        global.dryRun = false;
+        Code.expect( build.write( 'test', 'test' ) );
+        global.dryRun = true;
+        require( 'fs' ).unlinkSync( 'test/migrations/test.js' );
+
+        _config.beautifier = 'js-beautify';
+        Code.expect( build.write( 'test', 'var test=test ;' ) ).to.be.a.string().and.to.equal( 'var test = test;' );
+
+        _config.beautifier = 'echo test';
+        Code.expect( build.write( 'test', 'test' ) ).to.be.a.string().and.to.equal( 'test' );
+
+        done();
+    } );
+
+    lab.test( 'assert(), returns true if assert works as expected', { parallel: true }, function ( done )
+    {
+
+        var ex;
+
+        Code.expect( build.assert( false, 'Message' ) ).to.be.an.boolean().and.to.equal( true );
+        Code.expect( build.assert( true, 'Message' ) ).to.be.an.boolean().and.to.equal( false );
+        try
+        {
+            build.assert( true, { critical: true }, 'Message' );
+        }
+        catch (exception)
+        {
+            ex = exception;
+        }
+
+        Code.expect( ex ).to.be.an.boolean().and.to.equal( true );
+
+        done();
+    } );
 } );
 
-lab.experiment( 'builder', function ()
+lab.experiment( 'builder', { parallel: false }, function ()
 {
 
-    var build = new Builder(
-        internals.driver,
-        internals.template,
-        'test/migrations'
-    );
+    var build;
 
     lab.before( function ( done )
     {
+        build = new Builder(
+            internals.driver,
+            internals.template,
+            'test/migrations'
+        );
+
         build.build( internals.config, function ( next )
         {
 
