@@ -93,7 +93,8 @@ var internals = {
     {
 
         capabilities: [
-            'tables', 'views', 'engines', 'indizies'
+            'tables', 'views', 'engines', 'indizies',
+            'columns'
         ],
 
         getTables: function ( config, callback )
