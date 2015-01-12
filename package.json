@@ -27,7 +27,7 @@
   "dependencies": {
     "async": "~0.1.15",
     "auto-loader": "^0.2.0",
-    "db-migrate": "^0.7.1",
+    "db-migrate": "^0.8.0",
     "deasync": "0.0.7",
     "debug": "^1.0.4",
     "dotenv": "^0.2.8",
