@@ -2,6 +2,8 @@
 
 Any feature listed below, may exist in any version before in some way, but may change completely until its release.
 
+Versioning is Semver compliant, a minor patch never breaks anything from before.
+
 Version 1.0.0 will be completely backward compatible to any released 0.x.x Version, but is considered stable. While any 0.x.x is still defined as beta.
 
 # 0.5.x
