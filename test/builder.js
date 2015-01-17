@@ -194,6 +194,7 @@ var internals = {
                 [
                     [ 'atew', 'InnoDB' ],
                     [ 'definetly', 'InnoDB' ],
+                    [ 'deleted', 'Memory' ],
                     [ 'test', 'InnoDB' ],
                     [ 'tew', null ]
                 ],
@@ -225,11 +226,16 @@ var internals = {
                 [ 'roflxD', false, '1', 'lol', true, 'BTREE', '', '' ]
             ];
 
+            data[ 0 ].deleted = [
+                [ 'PRIMARY', true, '1', 'id', false, 'BTREE', '', '' ]
+            ];
+
             data[ 0 ].test = [
                 [ 'PRIMARY', true, '1', 'cdid', false, 'BTREE', '', '' ],
                 [ 'cdid', false, '1', 'cdid', false, 'HASH', '', '' ],
                 [ 'cdid_2', false, '1', 'cdid', false, 'BTREE', '', '' ],
-                [ 'cdid_2', false, '2', 'rofl_id', false, 'BTREE', '', '' ]
+                [ 'cdid_2', false, '2', 'rofl_id', false, 'BTREE', '', '' ],
+                [ 'cdid_4', false, '2', 'rofl_id', false, 'BTREE', '', '' ]
             ];
 
             data[ 1 ].atew = [
@@ -246,7 +252,8 @@ var internals = {
                 [ 'PRIMARY', true, '1', 'cdid', false, 'BTREE', '', '' ],
                 [ 'cdid', false, '1', 'cdid', false, 'BTREE', '', '' ],
                 [ 'cdid_2', false, '1', 'cdid', false, 'BTREE', '', '' ],
-                [ 'cdid_2', false, '2', 'rofl_id', false, 'BTREE', '', '' ]
+                [ 'cdid_2', false, '2', 'rofl_id', false, 'BTREE', '', '' ],
+                [ 'cdid_3', false, '2', 'rofl_id', false, 'BTREE', '', '' ]
             ];
 
             callback( context, data );
