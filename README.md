@@ -208,9 +208,9 @@ You may contact me via mail or xmpp( jabber ).
 
 I prefer xmpp, it's safe if wished OTR is also available.
 
-xmpp:magic@wizardtales.com
+xmpp:tobi@wizardtales.com
 
-[![View Testresults](https://xmpp.net/badge.php?domain=wizardtales.com)]('https://xmpp.net/result.php?domain=wizardtales.com&amp;type=client')
+[![View Testresults](https://xmpp.net/badge.php?domain=wizardtales.com)](https://xmpp.net/result.php?domain=wizardtales.com&type=client)
 
 # License
 
