@@ -1,5 +1,6 @@
 {
   "name": "umigrate",
+  "bin": "./bin/umigrate",
   "author": "Tobias Gurtzick <magic@wizardtales.com>",
   "keywords": [
     "database",
