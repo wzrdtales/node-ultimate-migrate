@@ -1,6 +1,7 @@
 [![Build Status](https://travis-ci.org/wzrdtales/node-ultimate-migrate.svg?branch=master)](https://travis-ci.org/wzrdtales/node-ultimate-migrate) 
 [![Documentation Status](https://readthedocs.org/projects/umigrate/badge/?version=latest)](https://readthedocs.org/projects/umigrate/?badge=latest) 
-[![Dependency Status](https://david-dm.org/wzrdtales/node-ultimate-migrate.svg)](https://david-dm.org/wzrdtales/node-ultimate-migrate)
+[![Dependency Status](https://david-dm.org/wzrdtales/node-ultimate-migrate.svg)](https://david-dm.org/wzrdtales/node-ultimate-migrate) 
+[![devDependency Status](https://david-dm.org/wzrdtales/node-ultimate-migrate/dev-status.svg)](https://david-dm.org/wzrdtales/node-ultimate-migrate#info=devDependencies)
 
 # Ultimate Migrate (BETA)
 
