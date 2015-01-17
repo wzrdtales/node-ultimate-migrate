@@ -18,7 +18,7 @@ Version 1.0.0 will be completely backward compatible to any released 0.x.x Versi
 
 # 0.7.x
  * Implemented function and procedure logic
- * Covered function and procedure logic with testswat ht
+ * Covered function and procedure logic with tests
 
 # 0.8.x
  * Implemented Laravel Migration generator
@@ -29,6 +29,6 @@ Version 1.0.0 will be completely backward compatible to any released 0.x.x Versi
  * Covered new specific logic with tests
 
 # 1.0.0
- * Feature complete as of following [definition](http://github.com/node-ultimate-migrate/FEATURES.md)
+ * Feature complete as of following [definition](http://github.com/wzrdtales/node-ultimate-migrate/FEATURES.md)
  * Completely covered with tests
  * Completely documented
