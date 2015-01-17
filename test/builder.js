@@ -773,17 +773,17 @@ lab.experiment( 'builder/', { parallel: false }, function ()
     {
 
         Code.expect( build.write() ).to.be.an.boolean().and.to.equal( false ); //failing without everything
-        Code.expect( build.write( 'test', 'test' ) );
+        Code.expect( build.write( 'test.js', 'test' ) );
         global.dryRun = false;
-        Code.expect( build.write( 'test', 'test' ) );
+        Code.expect( build.write( 'test.js', 'test' ) );
         global.dryRun = true;
         require( 'fs' ).unlinkSync( 'test/migrations/test.js' );
 
         _config.beautifier = 'js-beautify';
-        Code.expect( build.write( 'test', 'var test=test ;' ) ).to.be.a.string().and.to.equal( 'var test = test;' );
+        Code.expect( build.write( 'test.js', 'var test=test ;' ) ).to.be.a.string().and.to.equal( 'var test = test;' );
 
         _config.beautifier = 'echo test';
-        Code.expect( build.write( 'test', 'test' ) ).to.be.a.string().and.to.equal( 'test' );
+        Code.expect( build.write( 'test.js', 'test' ) ).to.be.a.string().and.to.equal( 'test' );
 
         done();
     } );
