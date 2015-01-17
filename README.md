@@ -1,12 +1,16 @@
 [![Build Status](https://travis-ci.org/wzrdtales/node-ultimate-migrate.svg?branch=master)](https://travis-ci.org/wzrdtales/node-ultimate-migrate) 
-[![Documentation Status](https://readthedocs.org/projects/umigrate/badge/?version=latest)](https://readthedocs.org/projects/umigrate/?badge=latest)
+[![Documentation Status](https://readthedocs.org/projects/umigrate/badge/?version=latest)](https://readthedocs.org/projects/umigrate/?badge=latest) 
+[![Dependency Status](https://david-dm.org/wzrdtales/node-ultimate-migrate.svg)](https://david-dm.org/wzrdtales/node-ultimate-migrate)
 
 # Ultimate Migrate (BETA)
 
 A X Language and X Database Migration, Migration generation and Database difftool.
 
-**Note:** Please not that this release is a **BETA Version**, it might be buggy
-but backward compatibility will be tryed to be preserved.
+**Note:** Please not that this release is a **BETA Version**, it might be buggy,
+but backward compatibility will be tried to be preserved from this point now.
+
+If there occur any breaking changes, you will find it under issues tagged by
+breaking changes.
 
 # Docs
 
@@ -179,7 +183,7 @@ This earlier design approach was to enable functionality that is currently not i
 
  * Do you have plans for future releases?
 
-Well..., yes. Just view the Roadmap. 
+Well..., yes. Just view the [Roadmap](https://github.com/wzrdtales/node-ultimate-migrate/blob/master/ROADMAP.md). 
 
  * Should I really don't care about Migration Compatiblity when switching Database Engines?
 
