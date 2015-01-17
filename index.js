@@ -203,36 +203,29 @@ function executeDump()
             process.exit( 1 );
         }
 
-        if ( err === undefined )
-        {
-            var migration = config.getCurrent().settings.database;
-            config.getCurrent().settings.diffDump = true;
-            config.getCurrent().settings.database = migration + '_diff';
-            config.getCurrent().settings.database_diff = migration + '_diff';
+        var migration = config.getCurrent().settings.database;
+        config.getCurrent().settings.diffDump = true;
+        config.getCurrent().settings.database = migration + '_diff';
+        config.getCurrent().settings.database_diff = migration + '_diff';
 
-            executeUp( function ( err, complete, callback )
+        executeUp( function ( err, complete, callback )
+        {
+            if ( err )
+                process.exit( 1 );
+
+            callback( function ( err )
             {
                 if ( err )
                     process.exit( 1 );
 
-                callback( function ( err )
-                {
-                    if ( err )
-                        process.exit( 1 );
-
-                    complete();
+                complete();
 
 
-                    config.getCurrent().settings.database = migration;
+                config.getCurrent().settings.database = migration;
 
-                    connect( config.getCurrent().settings, buildMigration );
-                } );
+                connect( config.getCurrent().settings, buildMigration );
             } );
-        }
-        else
-        {
-            connect( config.getCurrent().settings, buildMigration );
-        }
+        } );
     } );
 }
 
