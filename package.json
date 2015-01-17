@@ -41,5 +41,18 @@
     "code": "^1.2.1",
     "jscs": "^1.10.0",
     "lab": "^5.1.0"
-  }
+  },
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/wzrdtales/node-ultimate-migrate.git"
+  },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/wzrdtales/node-ultimate-migrate/issues"
+  },
+  "homepage": "https://github.com/wzrdtales/node-ultimate-migrate"
 }
