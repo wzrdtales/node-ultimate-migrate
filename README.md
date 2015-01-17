@@ -1,9 +1,12 @@
 [![Build Status](https://travis-ci.org/wzrdtales/node-ultimate-migrate.svg?branch=master)](https://travis-ci.org/wzrdtales/node-ultimate-migrate) 
 [![Documentation Status](https://readthedocs.org/projects/umigrate/badge/?version=latest)](https://readthedocs.org/projects/umigrate/?badge=latest)
 
-# Ultimate Migrate
+# Ultimate Migrate (BETA)
 
 A X Language and X Database Migration, Migration generation and Database difftool.
+
+**Note:** Please not that this release is a **BETA Version**, it might be buggy
+but backward compatibility will be tryed to be preserved.
 
 # Docs
 
