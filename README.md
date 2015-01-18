@@ -7,7 +7,7 @@
 
 A extendable X Language and X Database Migration, Migration generation and Database difftool.
 
-**Note:** Please not that this release is a **BETA Version**, it might be buggy,
+**Note:** Please note that this release is a **BETA Version**, it might be buggy,
 but backward compatibility will be tried to be preserved from this point now.
 
 If there occur any breaking changes, you will find it under issues tagged by
