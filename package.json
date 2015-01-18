@@ -23,7 +23,7 @@
     "sqlite",
     "mysql"
   ],
-  "description": "A X Language and X Database Migration, Migration generation and Database difftool.",
+  "description": "A extendable X Language and X Database Migration, Migration generation and Database difftool.",
   "engines": {
     "node": ">=0.10.0"
   },

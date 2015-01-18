@@ -5,7 +5,7 @@
 
 # Ultimate Migrate (BETA)
 
-A X Language and X Database Migration, Migration generation and Database difftool.
+A extendable X Language and X Database Migration, Migration generation and Database difftool.
 
 **Note:** Please not that this release is a **BETA Version**, it might be buggy,
 but backward compatibility will be tried to be preserved from this point now.
@@ -32,6 +32,13 @@ Having problems while installation? Reading this may solve all your problems!
 
 ## Usage
 
+### Getting Started
+
+To learn how to use umigrate read first the 
+[configuration](http://umigrate.readthedocs.org/en/latest/usage/configuration/)
+section and then the [getting started](http://umigrate.readthedocs.org/en/latest/usage/getting%20started/) 
+section from the docs.
+
 ### Migrator
 
 #### BuiltIn Migrator
@@ -44,7 +51,8 @@ In the future I'm going to contribute to [db-migrate](https://github.com/kunklej
 
 There are two possibilities to use a custom migrator together with this tool. The first is, use an existing Interface (just now there doesn't exist another one apart of the [db-migrate](https://github.com/kunklejr/node-db-migrate/) Interface, but they will follow in near feature). The second is, to write your own.
 
-Please read the docs for further Information.
+Please read the [docs](http://umigrate.readthedocs.org/en/latest/developers/templates/creatingOwnTemplate/) 
+for further Information.
 
 
 ### General/Dumper
