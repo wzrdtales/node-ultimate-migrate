@@ -31,6 +31,7 @@ default (
     verbose: false,
     'cross-compatible': false,
     'force-exit': false,
+    'sql-file': false,
     config: process.cwd() + '/database.json',
     'migrations-dir': process.cwd() + '/migrations'
 } )
@@ -84,6 +85,9 @@ default (
 .describe( 'db_persist', 'Defines wether the diff database should be persistent or be rollbacked after diff.' )
     .alias( 'p', 'db_persist' )
     .boolean( 'db_persist' )
+
+.describe( 'sql-file', 'Automatically create two sql files for up and down statements in /sqls and generate the javascript code that loads them.' )
+    .boolean( 'sql-file' )
 
 .argv;
 
@@ -175,10 +179,55 @@ function executeCreate()
         }
 
         argv.title = argv._.shift();
-        index.createMigration( argv.title, argv[ 'migrations-dir' ], function ( err, migration )
+        var templateType = shouldCreateSqlFiles() ? 
+            Migration.TemplateType.SQL_FILE_LOADER : 
+            Migration.TemplateType.DEFAULT_JS;
+
+        var migration = new Migration( argv.title + '.js', argv['migrations-dir'], new Date(), templateType );
+
+        index.createMigration( migration, function ( err, migration )
         {
             assert.ifError( err );
             log.info( util.format( 'Created migration at %s', migration.path ) );
+        } );
+    } );
+
+    if ( shouldCreateSqlFiles() ) 
+        createSqlFiles();
+}
+
+function shouldCreateSqlFiles() 
+{
+    return argv[ 'sql-file' ] || config[ 'sql-file' ];
+}
+
+function createSqlFiles() 
+{
+    var sqlDir = argv['migrations-dir'] + '/sqls';
+
+    createMigrationDir( sqlDir, function( err ) 
+    {
+        if ( err ) 
+        {
+            log.error( 'Failed to create migration directory at ', sqlDir, err );
+            process.exit( 1 );
+        }
+
+        var templateTypeDefaultSQL = Migration.TemplateType.DEFAULT_SQL;
+        var migrationUpSQL = new Migration( argv.title + '-up.sql', sqlDir, new Date(), templateTypeDefaultSQL );
+
+        index.createMigration( migrationUpSQL, function( err, migration ) 
+        {
+            assert.ifError( err );
+            log.info( util.format( 'Created migration up sql file at %s', migration.path ) );
+        } );
+
+        var migrationDownSQL = new Migration( argv.title + '-down.sql', sqlDir, new Date(), templateTypeDefaultSQL );
+        
+        index.createMigration( migrationDownSQL, function( err, migration ) 
+        {
+            assert.ifError( err );
+            log.info( util.format( 'Created migration down sql file at %s', migration.path ) );
         } );
     } );
 }
