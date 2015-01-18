@@ -5,7 +5,7 @@
 
 # Ultimate Migrate (BETA)
 
-A extendable X Language and X Database Migration, Migration generation and Database difftool.
+An extendable X Language and X Database Migration, Migration generation and Database difftool.
 
 **Note:** Please note that this release is a **BETA Version**, it might be buggy,
 but backward compatibility will be tried to be preserved from this point now.
