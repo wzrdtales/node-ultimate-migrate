@@ -16,6 +16,9 @@ var Builder = require( './lib/builder.js' );
 var driver = require( './lib/driver/' );
 var template = require( './lib/template/' );
 
+//global declaration for detection
+umigrate = true;
+
 dotenv.load();
 
 process.on( 'uncaughtException', function ( err )
@@ -117,6 +120,12 @@ function connect( config, callback )
 
     template.connect( config, function ( err, tmp )
     {
+        if( err )
+        {
+            callback( err );
+            return;
+        }
+
         driver.connect( config, function ( err, db )
         {
             if ( err )
