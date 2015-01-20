@@ -199,7 +199,7 @@ function executeCreate()
             Migration.TemplateType.SQL_FILE_LOADER : 
             Migration.TemplateType.DEFAULT_JS;
 
-        var migration = new Migration( argv.title + '.js', argv['migrations-dir'], new Date(), templateType );
+        var migration = new Migration( argv.title + '.js', argv[ 'migrations-dir' ], new Date(), templateType );
 
         index.createMigration( migration, function ( err, migration )
         {
@@ -219,7 +219,7 @@ function shouldCreateSqlFiles()
 
 function createSqlFiles() 
 {
-    var sqlDir = argv['migrations-dir'] + '/sqls';
+    var sqlDir = argv[ 'migrations-dir' ] + '/sqls';
 
     createMigrationDir( sqlDir, function( err ) 
     {

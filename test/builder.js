@@ -464,7 +464,7 @@ lab.experiment( 'builder/', { parallel: false }, function ()
         }, function ( done )
         {
 
-            var finObj = [],
+            var finObj = {},
                 testArr = [
                     [ 'test1', 'test2', 'test3' ],
                     [ 'test4', 'test5', 'test6' ],
@@ -481,7 +481,7 @@ lab.experiment( 'builder/', { parallel: false }, function ()
 
             var actual = build.buildArr( testArr, 2 );
 
-            Code.expect( actual ).to.be.an.array();
+            Code.expect( actual ).to.be.an.object();
             Code.expect( actual ).to.deep.equal( finObj );
             done();
         } );
@@ -771,19 +771,20 @@ lab.experiment( 'builder/', { parallel: false }, function ()
 
     lab.test( 'write(), returns true if write functionality works as expected', { parallel: false }, function ( done )
     {
+        var testFile = 'test' + Math.floor( Math.random() * 1000 ) + '.js';
 
         Code.expect( build.write() ).to.be.an.boolean().and.to.equal( false ); //failing without everything
-        Code.expect( build.write( 'test.js', 'test' ) );
+        Code.expect( build.write( testFile, 'test' ) );
         global.dryRun = false;
-        Code.expect( build.write( 'test.js', 'test' ) );
+        Code.expect( build.write( testFile, 'test' ) );
         global.dryRun = true;
-        require( 'fs' ).unlinkSync( 'test/migrations/test.js' );
+        require( 'fs' ).unlinkSync( 'test/migrations/' + testFile );
 
         _config.beautifier = 'js-beautify';
-        Code.expect( build.write( 'test.js', 'var test=test ;' ) ).to.be.a.string().and.to.equal( 'var test = test;' );
+        Code.expect( build.write( testFile, 'var test=test ;' ) ).to.be.a.string().and.to.equal( 'var test = test;' );
 
         _config.beautifier = 'echo test';
-        Code.expect( build.write( 'test.js', 'test' ) ).to.be.a.string().and.to.equal( 'test' );
+        Code.expect( build.write( testFile, 'test' ) ).to.be.a.string().and.to.equal( 'test' );
 
         done();
     } );
@@ -799,7 +800,7 @@ lab.experiment( 'builder/', { parallel: false }, function ()
         {
             build.assert( true, { critical: true }, 'Message' );
         }
-        catch (exception)
+        catch ( exception )
         {
             ex = exception;
         }
