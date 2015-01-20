@@ -17,7 +17,8 @@ var driver = require( './lib/driver/' );
 var template = require( './lib/template/' );
 
 //global declaration for detection
-umigrate = false;
+dbm = require( 'db-migrate' );
+async = require( 'async' );
 
 dotenv.load();
 
@@ -163,17 +164,11 @@ function loadConfig()
     {
         config.load( argv.config, argv.env );
     }
-    var current = config.getCurrent();
 
     if ( verbose )
-    {    
-        log.info( 'Using', current.env, 'settings:', current.settings );
-    }
-
-    //global declaration for detection
-    if( !current.settings.notGlobal )
     {
-        umigrate = true;
+        var current = config.getCurrent();
+        log.info( 'Using', current.env, 'settings:', current.settings );
     }
 }
 
