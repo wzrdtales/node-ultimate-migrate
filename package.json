@@ -37,11 +37,12 @@
     "deasync": "0.0.7",
     "dotenv": "^0.4.0",
     "js-beautify": "^1.5.1",
-    "mariasql": "^0.1.21",
     "mkdirp": "^0.5.0",
     "mysql": "^2.5.4",
     "optimist": "^0.6.1",
-    "pkginfo": "~0.3.0"
+    "pkginfo": "~0.3.0",
+    "umigrate-db-migrate": "^1.0.0",
+    "umigrate-mariadb": "^1.0.1"
   },
   "devDependencies": {
     "code": "^1.2.1",
