@@ -15,6 +15,8 @@ breaking changes.
 
 # Docs
 
+For Detailed view how to use umigrate, please view the documentation:
+
 [Documentation](http://umigrate.readthedocs.org/en/latest/)
 
 ## Installation
@@ -92,7 +94,7 @@ A config file looks like this.
 {
    "dev": {
       "driver": "mysql",
-      "altDriver": "mariasql",
+      "altDriver": "mariadb",
       "host": "localhost",
       "user": "root",
       "password": "root",
