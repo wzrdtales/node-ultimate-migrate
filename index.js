@@ -1,6 +1,11 @@
 #!/usr/bin/env node
 
-// This code is mostly the same as db-migrate/bin/db-migrate
+/**
+  * This code is mostly the same as db-migrate/bin/db-migrate and therefore 
+  * most of the time the LICENSE of db-migrate applies to this single file.
+  *
+  * https://github.com/kunklejr/node-db-migrate/blob/master/LICENSE
+  */
 var index = require( 'db-migrate' );
 var assert = require( 'assert' );
 var fs = require( 'fs' );
