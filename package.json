@@ -30,7 +30,7 @@
   "scripts": {
     "test": "make test-cov"
   },
-  "version": "0.4.61",
+  "version": "0.4.62",
   "dependencies": {
     "async": "~0.9.0",
     "db-migrate": "^0.8.0",
