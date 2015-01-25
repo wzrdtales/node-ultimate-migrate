@@ -15,7 +15,7 @@ breaking changes.
 
 # Docs
 
-For Detailed view how to use umigrate, please view the documentation:
+For detailed Instructions how to use umigrate, please view the documentation:
 
 [Documentation](http://umigrate.readthedocs.org/en/latest/)
 
