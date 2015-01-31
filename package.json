@@ -33,7 +33,7 @@
   "version": "0.4.64",
   "dependencies": {
     "async": "~0.9.0",
-    "db-migrate": "^0.8.0",
+    "db-migrate": "git://github.com/np-maintain/node-db-migrate.git#v0.8.1",
     "deasync": "0.0.8",
     "dotenv": "^0.5.1",
     "js-beautify": "^1.5.1",
@@ -41,7 +41,7 @@
     "mysql": "^2.5.4",
     "optimist": "^0.6.1",
     "pkginfo": "~0.3.0",
-    "umigrate-db-migrate": "^1.0.0",
+    "umigrate-db-migrate": "^1.0.1",
     "umigrate-mariadb": "^1.0.2"
   },
   "devDependencies": {
