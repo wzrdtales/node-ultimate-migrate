@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 /**
-  * This code is mostly the same as db-migrate/bin/db-migrate and therefore 
+  * This code is mostly the same as db-migrate/bin/db-migrate and therefore
   * most of the time the LICENSE of db-migrate applies to this single file.
   *
   * https://github.com/kunklejr/node-db-migrate/blob/master/LICENSE
@@ -195,8 +195,8 @@ function executeCreate()
         }
 
         argv.title = argv._.shift();
-        var templateType = shouldCreateSqlFiles() ? 
-            Migration.TemplateType.SQL_FILE_LOADER : 
+        var templateType = shouldCreateSqlFiles() ?
+            Migration.TemplateType.SQL_FILE_LOADER :
             Migration.TemplateType.DEFAULT_JS;
 
         var migration = new Migration( argv.title + '.js', argv[ 'migrations-dir' ], new Date(), templateType );
@@ -208,22 +208,22 @@ function executeCreate()
         } );
     } );
 
-    if ( shouldCreateSqlFiles() ) 
+    if ( shouldCreateSqlFiles() )
         createSqlFiles();
 }
 
-function shouldCreateSqlFiles() 
+function shouldCreateSqlFiles()
 {
     return argv[ 'sql-file' ] || config[ 'sql-file' ];
 }
 
-function createSqlFiles() 
+function createSqlFiles()
 {
     var sqlDir = argv[ 'migrations-dir' ] + '/sqls';
 
-    createMigrationDir( sqlDir, function( err ) 
+    createMigrationDir( sqlDir, function( err )
     {
-        if ( err ) 
+        if ( err )
         {
             log.error( 'Failed to create migration directory at ', sqlDir, err );
             process.exit( 1 );
@@ -232,15 +232,15 @@ function createSqlFiles()
         var templateTypeDefaultSQL = Migration.TemplateType.DEFAULT_SQL;
         var migrationUpSQL = new Migration( argv.title + '-up.sql', sqlDir, new Date(), templateTypeDefaultSQL );
 
-        index.createMigration( migrationUpSQL, function( err, migration ) 
+        index.createMigration( migrationUpSQL, function( err, migration )
         {
             assert.ifError( err );
             log.info( util.format( 'Created migration up sql file at %s', migration.path ) );
         } );
 
         var migrationDownSQL = new Migration( argv.title + '-down.sql', sqlDir, new Date(), templateTypeDefaultSQL );
-        
-        index.createMigration( migrationDownSQL, function( err, migration ) 
+
+        index.createMigration( migrationDownSQL, function( err, migration )
         {
             assert.ifError( err );
             log.info( util.format( 'Created migration down sql file at %s', migration.path ) );

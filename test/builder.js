@@ -306,7 +306,7 @@ lab.experiment( 'builder/', { parallel: false }, function ()
     lab.before( function ( done )
     {
         build = new Builder(
-            _int,        
+            _int,
             undefined,
             'test/migrations',
             _config
@@ -761,7 +761,7 @@ lab.experiment( 'builder/', { parallel: false }, function ()
 
         _int.capabilities.push( 'tables' );
         Code.expect( build.checkCap( 'getTables', true, function() {} ) ).to.be.an.boolean().and.to.equal( true );
-        
+
 
         _int.capabilities.push( 'indizies' );
         Code.expect( build.checkCap( 'indizies', true, function() {} ) ).to.be.an.boolean().and.to.equal( true );
