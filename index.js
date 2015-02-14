@@ -38,6 +38,7 @@ var argv = optimist
 default (
 {
     verbose: false,
+    table: 'migrations',
     'cross-compatible': false,
     'force-exit': false,
     'sql-file': false,
