@@ -44,7 +44,7 @@ default (
     config: process.cwd() + '/database.json',
     'migrations-dir': process.cwd() + '/migrations'
 } )
-    .usage( 'Usage: db-umigrate [up|down|create|dump] migrationName [options]' )
+    .usage( 'Usage: umigrate [up|down|reset|create|db|dump] [[dbname/]migrationName|all] [options]' )
 
 .describe( 'env', 'The environment to run the migrations under (dev, test, prod).' )
     .alias( 'e', 'env' )
@@ -98,6 +98,15 @@ default (
 .describe( 'sql-file', 'Automatically create two sql files for up and down statements in /sqls and generate the javascript code that loads them.' )
     .boolean( 'sql-file' )
 
+.describe( 'coffee-file', 'Create a coffeescript migration file' )
+    .boolean( 'coffee-file' )
+
+.describe( 'migration-table', 'Set the name of the migration table, which stores the migration history.' )
+    .alias( 'table', 'migration-table' )
+    .alias( 't', 'table' )
+    .string( 't' )
+
+
 .argv;
 
 if ( argv.version )
@@ -112,6 +121,10 @@ if ( argv.help || argv._.length === 0 )
     process.exit( 1 );
 }
 
+global.migrationTable = argv.table;
+global.dbm = dbm;
+global.matching = '';
+global.mode;
 global.verbose = argv.verbose;
 global.dryRun = argv[ 'dry-run' ];
 if ( global.dryRun )
@@ -173,12 +186,19 @@ function loadConfig()
     if ( verbose )
     {
         var current = config.getCurrent();
-        log.info( 'Using', current.env, 'settings:', current.settings );
+        var s = JSON.parse( JSON.stringify( current.settings ) );
+
+        if ( s.password )
+            s.password = '******';
+
+        log.info( 'Using', current.env, 'settings:', s );
     }
 }
 
 function executeCreate()
 {
+    var folder, path;
+
     if ( argv._.length === 0 )
     {
         log.error( '\'migrationName\' is required.' );
@@ -195,11 +215,32 @@ function executeCreate()
         }
 
         argv.title = argv._.shift();
-        var templateType = shouldCreateSqlFiles() ?
-            Migration.TemplateType.SQL_FILE_LOADER :
-            Migration.TemplateType.DEFAULT_JS;
+        folder = argv.title.split( '/' );
 
-        var migration = new Migration( argv.title + '.js', argv[ 'migrations-dir' ], new Date(), templateType );
+        argv.title = folder[ folder.length - 2 ] || folder[ 0 ];
+        path = argv[ 'migrations-dir' ];
+
+        if( folder.length > 1 )
+        {
+            path += '/';
+
+            for( var i = 0; i < folder.length - 1; ++i )
+            {
+                path += folder[ i ] + '/';
+            }
+        }
+        var templateType = Migration.TemplateType.DEFAULT_JS;
+
+        if( shouldCreateSqlFiles() )
+        {
+            templateType = Migration.TemplateType.SQL_FILE_LOADER;
+        }
+        else if( shouldCreateCoffeeFile() )
+        {
+            templateType = Migration.TemplateType.DEFAULT_COFFEE;
+        }
+
+        var migration = new Migration( argv.title + '.js', path, new Date(), templateType );
 
         index.createMigration( migration, function ( err, migration )
         {
@@ -210,6 +251,11 @@ function executeCreate()
 
     if ( shouldCreateSqlFiles() )
         createSqlFiles();
+}
+
+function shouldCreateCoffeeFile()
+{
+    return argv[ 'coffee-file' ] || config[ 'coffee-file' ];
 }
 
 function shouldCreateSqlFiles()
@@ -346,7 +392,12 @@ function executeUp( callback )
     index.connect( config.getCurrent().settings, function ( err, migrator )
     {
         assert.ifError( err );
-        migrator.migrationsDir = path.resolve( argv[ 'migrations-dir' ] );
+
+        if( global.locTitle )
+            migrator.migrationsDir = path.resolve( argv['migrations-dir'], global.locTitle );
+        else
+            migrator.migrationsDir = path.resolve( argv['migrations-dir'] );
+
         migrator.driver.createMigrationsTable( function ( err )
         {
             assert.ifError( err );
@@ -387,6 +438,58 @@ function executeDown( callback )
     } );
 }
 
+function executeDB() {
+
+    if( argv._.length > 0 )
+    {
+        argv.dbname = argv._.shift().toString();
+    }
+    else
+    {
+        log.info( 'Error: You must enter a database name!' );
+        return;
+    }
+
+    index.driver( config.getCurrent().settings, function( err, db )
+    {
+        if( global.mode === 'create' )
+        {
+            db.createDatabase( argv.dbname, { ifNotExists: true }, function()
+            {
+                if( err )
+                {
+                    log.info( 'Error: Failed to create database!' );
+                }
+                else
+                {
+                    log.info( 'Created database "' + argv.dbname + '"' );
+                }
+
+                db.close();
+            } );
+        }
+        else if( global.mode === 'drop' )
+        {
+            db.dropDatabase( argv.dbname, { ifExists: true }, function()
+            {
+                if( err )
+                {
+                    log.info( 'Error: Failed to drop database!' );
+                }
+                else
+                {
+                    log.info( 'Deleted database "' + argv.dbname + '"' );
+                }
+
+                db.close();
+            } );
+        }
+        else
+            return;
+    } );
+
+}
+
 function onComplete( migrator, originalErr )
 {
     migrator.driver.close( function ( err )
@@ -399,7 +502,9 @@ function onComplete( migrator, originalErr )
 
 function run()
 {
-    var action = argv._.shift();
+    var action = argv._.shift(),
+        folder = action.split( ':' );
+
     switch ( action )
     {
     case 'dump':
@@ -411,7 +516,12 @@ function run()
         break;
     case 'up':
     case 'down':
+    case 'reset':
         loadConfig();
+
+        if( action === 'reset' )
+            argv.count = Number.MAX_VALUE;
+
         if ( argv._.length > 0 )
         {
             if ( action == 'down' )
@@ -424,6 +534,13 @@ function run()
                 argv.destination = argv._.shift().toString();
             }
         }
+
+        if( folder[ 1 ] )
+        {
+            global.matching = folder[ 1 ];
+            global.migrationMode = folder[ 1 ];
+        }
+
         if ( action == 'up' )
         {
             executeUp();
@@ -431,6 +548,20 @@ function run()
         else
         {
             executeDown();
+        }
+        break;
+
+    case 'db':
+        loadConfig();
+
+        if( folder.length < 1 )
+        {
+            log.info( 'Please enter a valid command, i.e. db:create|db:drop' );
+        }
+        else
+        {
+            global.mode = folder[ 1 ];
+            executeDB();
         }
         break;
 
