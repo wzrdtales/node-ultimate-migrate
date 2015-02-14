@@ -5,6 +5,8 @@
 
 # Ultimate Migrate (BETA)
 
+[![Join the chat at https://gitter.im/wzrdtales/node-ultimate-migrate](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/wzrdtales/node-ultimate-migrate?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 An extendable X Language and X Database Migration, Migration generation and Database difftool.
 
 **Note:** Please note that this release is a **BETA Version**, it might be buggy,
