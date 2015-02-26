@@ -5,6 +5,8 @@ var Builder = require( '../lib/builder.js' ),
     Lab = require( 'lab' ),
     lab = exports.lab = Lab.script();
 
+log.silence( true );
+
 var internals = {
 
 
