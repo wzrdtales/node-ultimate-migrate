@@ -232,3 +232,6 @@ xmpp:tobi@wizardtales.com
 # License
 
 [MIT](https://github.com/wzrdtales/node-ultimate-migrate/blob/master/LICENSE)
+
+[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/wzrdtales/node-ultimate-migrate/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
+
