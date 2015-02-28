@@ -1,7 +1,8 @@
-[![Build Status](https://travis-ci.org/wzrdtales/node-ultimate-migrate.svg?branch=master)](https://travis-ci.org/wzrdtales/node-ultimate-migrate) 
-[![Documentation Status](https://readthedocs.org/projects/umigrate/badge/?version=latest)](https://readthedocs.org/projects/umigrate/?badge=latest) 
-[![Dependency Status](https://david-dm.org/wzrdtales/node-ultimate-migrate.svg)](https://david-dm.org/wzrdtales/node-ultimate-migrate) 
+[![Build Status](https://travis-ci.org/wzrdtales/node-ultimate-migrate.svg?branch=master)](https://travis-ci.org/wzrdtales/node-ultimate-migrate)
+[![Documentation Status](https://readthedocs.org/projects/umigrate/badge/?version=latest)](https://readthedocs.org/projects/umigrate/?badge=latest)
+[![Dependency Status](https://david-dm.org/wzrdtales/node-ultimate-migrate.svg)](https://david-dm.org/wzrdtales/node-ultimate-migrate)
 [![devDependency Status](https://david-dm.org/wzrdtales/node-ultimate-migrate/dev-status.svg)](https://david-dm.org/wzrdtales/node-ultimate-migrate#info=devDependencies)
+[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/wzrdtales/node-ultimate-migrate/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
 
 # Ultimate Migrate (BETA)
 
@@ -38,9 +39,9 @@ Having problems while installation? Reading this may solve all your problems!
 
 ### Getting Started
 
-To learn how to use umigrate read first the 
+To learn how to use umigrate read first the
 [configuration](http://umigrate.readthedocs.org/en/latest/usage/configuration/)
-section and then the [getting started](http://umigrate.readthedocs.org/en/latest/usage/getting%20started/) 
+section and then the [getting started](http://umigrate.readthedocs.org/en/latest/usage/getting%20started/)
 section from the docs.
 
 ### Migrator
@@ -55,7 +56,7 @@ In the future I'm going to contribute to [db-migrate](https://github.com/kunklej
 
 There are two possibilities to use a custom migrator together with this tool. The first is, use an existing Interface (just now there doesn't exist another one apart of the [db-migrate](https://github.com/kunklejr/node-db-migrate/) Interface, but they will follow in near feature). The second is, to write your own.
 
-Please read the [docs](http://umigrate.readthedocs.org/en/latest/developers/templates/creatingOwnTemplate/) 
+Please read the [docs](http://umigrate.readthedocs.org/en/latest/developers/templates/creatingOwnTemplate/)
 for further Information.
 
 
@@ -66,16 +67,16 @@ for further Information.
 Usage: umigrate [up|down|create|dump] migrationName [options]
 
 Options:
-  --env, -e               The environment to run the migrations under (dev, test, prod).                      
+  --env, -e               The environment to run the migrations under (dev, test, prod).
   --migrations-dir, -m    The directory containing your migration files.                                        [default: "./migrations"]
-  --count, -c             Max number of migrations to run.                                                    
+  --count, -c             Max number of migrations to run.
   --dry-run               Prints the SQL but doesn't run it.                                                    [boolean]
   --force-exit            Forcibly exit the migration process on completion.                                    [boolean]  [default: false]
   --verbose, -v           Verbose mode.                                                                         [default: false]
   --version, -i           Print version info.                                                                   [boolean]
-  --diffdb, -d            Specify manually a DataBase to diff.                                                
+  --diffdb, -d            Specify manually a DataBase to diff.
   --cross-compatible, -x  Dumper will run in compatible mode. By default everything generic keeps x-compatible  [default: false]
-  --template, -t          Specify which tempĺate to use.                                                      
+  --template, -t          Specify which tempĺate to use.
   --config                Location of the database.json file.                                                   [string]  [default: "./database.json"]
 ```
 
@@ -160,7 +161,7 @@ To check tests and codestyles you can run:
 To make things easier you can also use the `sublime text` plugin `code formatter`, with the following config:
 
 ```json
-{        
+{
     "codeformatter_js_options":
     {
         "indent_size": 4, // indentation size
@@ -196,7 +197,7 @@ This earlier design approach was to enable functionality that is currently not i
 
  * Do you have plans for future releases?
 
-Well..., yes. Just view the [Roadmap](https://github.com/wzrdtales/node-ultimate-migrate/blob/master/ROADMAP.md). 
+Well..., yes. Just view the [Roadmap](https://github.com/wzrdtales/node-ultimate-migrate/blob/master/ROADMAP.md).
 
  * Should I really don't care about Migration Compatiblity when switching Database Engines?
 
@@ -232,3 +233,4 @@ xmpp:tobi@wizardtales.com
 # License
 
 [MIT](https://github.com/wzrdtales/node-ultimate-migrate/blob/master/LICENSE)
+
