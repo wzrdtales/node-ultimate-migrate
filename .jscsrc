@@ -1,6 +1,5 @@
 {
   "requireCurlyBraces": ["for","do","try","catch"],
-  "requireSpaceBeforeBlockStatements": false,
   "requireSpacesInConditionalExpression": {
     "afterTest": true,
     "beforeConsequent": true,
