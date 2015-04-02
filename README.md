@@ -2,7 +2,6 @@
 [![Documentation Status](https://readthedocs.org/projects/umigrate/badge/?version=latest)](https://readthedocs.org/projects/umigrate/?badge=latest)
 [![Dependency Status](https://david-dm.org/wzrdtales/node-ultimate-migrate.svg)](https://david-dm.org/wzrdtales/node-ultimate-migrate)
 [![devDependency Status](https://david-dm.org/wzrdtales/node-ultimate-migrate/dev-status.svg)](https://david-dm.org/wzrdtales/node-ultimate-migrate#info=devDependencies)
-[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/wzrdtales/node-ultimate-migrate/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
 
 # Ultimate Migrate (BETA)
 
