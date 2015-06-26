@@ -33,7 +33,7 @@
   "version": "0.4.72",
   "dependencies": {
     "async": "~1.2.1",
-    "db-migrate": "^0.9.12",
+    "db-migrate": "^0.9.14",
     "deasync": "^0.1.0",
     "dotenv": "^1.1.0",
     "js-beautify": "^1.5.1",
