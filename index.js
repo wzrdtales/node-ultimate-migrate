@@ -29,7 +29,7 @@ dotenv.load();
 
 process.on( 'uncaughtException', function ( err )
 {
-    log.error( err.stac );
+    log.error( err.stack );
     process.exit( 1 );
 } );
 

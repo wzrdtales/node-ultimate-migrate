@@ -5,3 +5,4 @@ build
 database.json
 migrations/
 *.sublime-workspace
+archive/
