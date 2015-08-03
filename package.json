@@ -45,7 +45,7 @@
   },
   "devDependencies": {
     "code": "^1.4.0",
-    "jscs": "^1.12.0",
+    "jscs": "^2.0.0",
     "lab": "^5.5.1"
   },
   "main": "index.js",
