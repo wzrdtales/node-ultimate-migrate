@@ -32,7 +32,7 @@
   },
   "version": "0.4.72",
   "dependencies": {
-    "async": "~1.2.1",
+    "async": "~1.4.0",
     "db-migrate": "^0.9.17",
     "deasync": "^0.1.0",
     "dotenv": "^1.1.0",
