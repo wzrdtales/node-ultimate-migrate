@@ -32,21 +32,21 @@
   },
   "version": "0.4.73",
   "dependencies": {
-    "async": "~1.4.0",
-    "db-migrate": "^0.9.17",
-    "deasync": "^0.1.0",
+    "async": "~1.4.2",
+    "db-migrate": "^0.9.22",
+    "deasync": "^0.1.2",
     "dotenv": "^1.1.0",
-    "js-beautify": "^1.5.1",
-    "mkdirp": "^0.5.0",
+    "js-beautify": "^1.5.10",
+    "mkdirp": "^0.5.1",
     "optimist": "^0.6.1",
     "pkginfo": "~0.3.0",
-    "umigrate-db-migrate": "^1.0.4",
+    "umigrate-db-migrate": "^1.0.5",
     "umigrate-mariadb": "^1.0.3"
   },
   "devDependencies": {
-    "code": "^1.4.0",
-    "jscs": "^2.0.0",
-    "lab": "^5.5.1"
+    "code": "^1.5.0",
+    "jscs": "^2.1.2",
+    "lab": "^5.16.1"
   },
   "main": "index.js",
   "directories": {
