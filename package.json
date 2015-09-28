@@ -41,7 +41,7 @@
     "optimist": "^0.6.1",
     "pkginfo": "~0.3.0",
     "umigrate-db-migrate": "^1.0.5",
-    "umigrate-mariadb": "^1.0.3"
+    "umigrate-mariadb": "^1.0.5"
   },
   "devDependencies": {
     "code": "^1.5.0",
